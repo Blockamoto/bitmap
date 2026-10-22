@@ -5,7 +5,7 @@
 
 ## Distinct operations
 
-1. **Source:** Choose *Inscription Body* (claimant's undelegated bytes) or *Inscription Content* (bytes served for claimant ID; may come from a direct delegate). These are independent binaries in this registry. Neither chooses a text decoder.
+1. **Source:** Choose `body` (claimant's undelegated bytes) or `content` (bytes served for claimant ID; may come from a direct delegate). These are independent binaries in this registry. Their names are 2026 choices; the older `content=1` meant own-body, not today's served-content rule. Neither chooses a text decoder.
 2. **MIME filter:** Independently check a `text/plain` media type and any optional MIME-label exceptions. MIME `charset` is **metadata**; honoring the declared charset is a separate decision from MIME eligibility.
 3. **Content-encoding tag:** Ord inscription field **9** declares body content encoding such as `br`. A policy can reject **presence of the field** without attempting decompression.
 4. **Transform:** A profile can separately permit **Brotli decompression**, whose precise trigger, failure behavior and bounds still require definition. A declared tag does not mean decompression occurred.
@@ -37,7 +37,7 @@ Standards: [RFC 2046 §4.1.2](https://www.rfc-editor.org/rfc/rfc2046.html#sectio
 - [Brotli Decompression Eligibility](brotli-decompression-eligibility.md): `0`; separately specified decompression route, not a content-encoding-tag veto.
 - [Content-Encoding Tag Exclusion](content-encoding-tag-exclusion.md): `0`; metadata-presence exclusion independent of byte transformation.
 - [Text MIME rule](plain-text-inscription.md): `1`; eligibility is `text/plain` independently of decoding.
-- [Inscription Body](inscription-body-source.md) `1`, [Inscription Content](inscription-content-source.md) `0`: separate claim-byte source choices, not decoder switches.
+- [Body](inscription-body-source.md) `1`, [Content](inscription-content-source.md) `0`: separate claim-byte source choices, not decoder switches.
 
 **Historical note:** OPI strict-UTF8 code is verifiable in its December 2023 public module. Trac-derived lossy UTF-8 appears in its September 2025 public Rust port. Boppleton/Live OCI behaviour is reported but not independently code-verified in this audit. These are different evidence categories and do not establish universal adoption.
 

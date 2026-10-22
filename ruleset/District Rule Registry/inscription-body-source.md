@@ -1,10 +1,10 @@
-# Inscription Body: District claim source
+# Body: District claim source
 
-**Code ID (provisional):** `inscription_body`  
+**Code ID (provisional):** `body`  
 **Standard:** `1` (provisional current-profile value)  
 **Earliest verified related code:** 19 September 2025 (`ord-tap` initial public snapshot)  
 **Explicit 2026 clarification:** 16 October 2026 working specification, subsequently revised 21 October.  
-**Status:** Independent binary source-selection rule; **not** proof of original 2023 Trac enforcement.
+**Status:** Independent binary source-selection rule; **not** proof of original 2023 Trac enforcement. Historic `content=1` referred to an own-body policy; it now corresponds most closely to `body=1`, **not** to the current served-content `content` rule.
 
 ## Definition
 

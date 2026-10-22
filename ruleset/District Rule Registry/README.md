@@ -5,15 +5,15 @@
 | Index | ID | Standard | Definition |
 | --- | --- | :---: | --- |
 |  | [`schema`](canonical-district-schema.md) | 1 | Require the entire selected claim to use canonical `<height>.bitmap` syntax (decimal height, lowercase suffix), matching the [regex](district-claim.regex). |
-|  | [`inscription_body`](inscription-body-source.md) | 1 | Evaluate the claimant inscription's own undelegated envelope body. |
-|  | [`inscription_content`](inscription-content-source.md) | 0 | Evaluate content served for the claimant inscription ID, potentially supplied by its delegate. |
+|  | [`body`](inscription-body-source.md) | 1 | Evaluate the claimant inscription's own undelegated envelope body. |
 |  | [`text`](plain-text-inscription.md) | 1 | Require the parsed MIME media type `text/plain`; charset parameters do not themselves decide MIME eligibility. |
 |  | [`strict`](raw-utf8-strict-decoding.md) | 1 | Decode selected bytes as strict UTF-8 (ASCII-compatible), ignoring any declared charset; canonical District claims must match exact ASCII bytes. |
 |  | [`height`](claimed-block-exists.md) | 1 | Require the claimed block height to be no greater than the inscription's reveal-block height. |
 |  | [`first`](first-eligible-wins.md) | 1 | Recognize the first eligible District claimant under the independently selected precedence comparator. |
+|  | [`precedence_bitcoin_reveal`](bitcoin-transaction-ordering.md) | 1 | Rank eligible claims by reveal-block height, then transaction position; intra-transaction ties remain open. |
+|  | [`content`](inscription-content-source.md) | 0 | Evaluate content served for the claimant inscription ID, potentially supplied by its delegate. |
 |  | [`precedence_unix_timestamp`](unix-timestamp-ordering.md) | 0 | Rank eligible reveals by the Bitcoin reveal block's `nTime`; ties need explicit handling. |
 |  | [`precedence_inscription_number`](lowest-inscription-number.md) | 0 | Rank eligible claims by lowest signed Ordinals inscription number. |
-|  | [`precedence_bitcoin_reveal`](bitcoin-transaction-ordering.md) | 1 | Rank eligible claims by reveal-block height, then transaction position; intra-transaction ties remain open. |
 |  | [`strict_height`](strict-prior-reveal-height.md) | 0 | Require claimed block height strictly below reveal height, excluding same-block claims. |
 |  | [`delegate_content_resolution`](delegate-content-resolution.md) | 0 | Reproduce Trac-derived one-hop delegate-content lookup and fallback as a separate comparison policy. |
 |  | [`text_mime_family`](text-mime-family-exception.md) | 0 | Also permit MIME `text/*` subtypes beyond `text/plain` for otherwise qualifying claims. |
@@ -25,7 +25,7 @@
 |  | [`negative_inscription_number_exclusion`](negative-inscription-number-exclusion.md) | 0 | Reject claimants with negative signed Ordinals inscription numbers. |
 |  | [`delegate_exclusion`](delegate-tag-exclusion.md) | 0 | Reject any claimant declaring Ord delegate field 11, independently of its own body. |
 
-**Standard** is the *proposed* Bitmap Standard profile value (`1` enabled; `0` disabled), not a claim that every historical indexer used it. Rules that resolve the fundamental schema, content source, text interpretation, height and winner questions appear first; additional historical exceptions follow. Related decisions remain adjacent. The canonical `<height>.bitmap` syntax is the only active District claim schema; no prototype/alternate schema is selectable. No rule positions or profile hashes have been assigned.
+**Standard** is the *proposed* Bitmap Standard profile value (`1` enabled; `0` disabled), not a claim that every historical indexer used it. The table groups all proposed Standard `1` rules above the `0` rules, beginning with `schema`, `body`, and `text`. This is a review/display order, **not** historical chronology or permanent numeric bit positions. The canonical `<height>.bitmap` syntax is the only active District claim schema; no prototype/alternate schema is selectable. No rule positions or profile hashes have been assigned.
 
 Text decoding currently has **one active rule**: [`strict`](raw-utf8-strict-decoding.md) = **`1`**. It decodes the selected inscription bytes as strict UTF-8, rejects malformed UTF-8, and passes the unchanged decoded string to the District schema. Because the canonical whole-string District grammar is ASCII-only, this accepts exactly the canonical ASCII byte sequence. A declared MIME `charset` does **not** change decoding in this Standard profile. The separate `text` rule still governs `text/plain` MIME eligibility.
 

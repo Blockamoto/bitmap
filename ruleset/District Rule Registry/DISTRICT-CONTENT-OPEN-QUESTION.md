@@ -6,11 +6,13 @@
 
 ## Recorded independent choices
 
-1. **[Inscription Body](inscription-body-source.md):** Enable evaluating the candidate against the claimant inscription's **own undelegated envelope body bytes**, regardless of what HTTP content serving would return.
-2. **[Inscription Content](inscription-content-source.md):** Enable evaluating the candidate against content that would be **served for the claimant inscription ID**. Under Ord's current content handler, a declared delegate can supply the served bytes; this is not a different claim schema.
+1. **[Body](inscription-body-source.md):** Enable evaluating the candidate against the claimant inscription's **own undelegated envelope body bytes**, regardless of what HTTP content serving would return.
+2. **[Content](inscription-content-source.md):** Enable evaluating the candidate against content that would be **served for the claimant inscription ID**. Under Ord's current content handler, a declared delegate can supply the served bytes; this is not a different claim schema.
 3. **[Delegate Tag Exclusion](delegate-tag-exclusion.md):** Reject any claimant **merely for declaring a delegate**, regardless of how content was selected and whether its own bytes match.
 
 A fourth pre-existing rule, **[Nested Delegate Exclusion](nested-delegate-exclusion.md)**, rejects the narrower A → B → C scenario when A's immediate delegate B itself declares a delegate. It is **not** the same as all-delegates exclusion.
+
+**ID clarification (22 October 2026):** The short names are now `body` (claimant's own bytes) and `content` (served bytes). The historical `content=1` own-body rule is not equivalent to today's `content` ID. Do not translate old and new profiles merely by matching the name.
 
 No one of these binaries is defined as the negation of another. The first two concern **source selection** only, the third and fourth concern **eligibility vetoes**.
 
@@ -42,4 +44,4 @@ If A has no delegate, its served and own-body bytes ordinarily coincide. Missing
 - **MIME and decoder linkage:** Which field's declared content type is tested when using served content, and how declared encoding interacts with selected bytes, requires explicit rules or fixtures. This does **not** change the distinction between body source and served source.
 - **Live OCI / Boppleton delegate policy:** The all-delegates exclusion is a separate candidate, currently off; verify the Live OCI implementation and earliest public date in the later District-only audit.
 
-**Current provisional default combination:** Inscription Body `1`; Inscription Content `0`; Delegate Tag Exclusion `0`; Nested Delegate Exclusion `0`. These are **working profile defaults**, not a declaration that an ambiguous 2023 author or original Trac implementation had specified these exact binaries. No Parcel interpretation is imported.
+**Current provisional default combination:** `body=1`; `content=0`; Delegate Tag Exclusion `0`; Nested Delegate Exclusion `0`. These are **working profile defaults**, not a declaration that an ambiguous 2023 author or original Trac implementation had specified these exact binaries. No Parcel interpretation is imported.

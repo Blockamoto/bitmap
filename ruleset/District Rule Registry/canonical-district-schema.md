@@ -27,7 +27,7 @@ Require the **entire selected claim** to use canonical District format `<height>
 ## Clarifications
 
 - Only decimal height `0` may begin with a zero.
-- The historically used “district claim command” wording did not explicitly define the data source. The registry now records [Inscription Body](inscription-body-source.md) and [Inscription Content](inscription-content-source.md) as **separate, independently switchable binary sources**, without retroactively attributing either definition to 2023.
+- The historically used “district claim command” wording did not explicitly define the data source. The registry now records [Body](inscription-body-source.md) and [Content](inscription-content-source.md) as **separate, independently switchable binary sources**, without retroactively attributing either definition to 2023.
 - [Delegate Tag Exclusion](delegate-tag-exclusion.md) and [Nested Delegate Exclusion](nested-delegate-exclusion.md) are separate eligibility decisions. See [open combination and provenance questions](DISTRICT-CONTENT-OPEN-QUESTION.md).
 - The first published syntax and the Trac-derived content-resolution alternatives are kept distinct. Further evidence and rule lineage remain to be audited.
 
