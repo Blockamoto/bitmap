@@ -5,7 +5,7 @@
 | Index | ID | Standard | Definition |
 | --- | --- | :---: | --- |
 |  | [`schema`](canonical-district-schema.md) | 1 | Require the entire selected claim to use canonical `<height>.bitmap` syntax (decimal height, lowercase suffix), matching the [regex](district-claim.regex). |
-|  | [`body`](inscription-body-source.md) | 1 | Evaluate the District claim using the claimant inscription's own undelegated envelope body, rather than content served for its inscription ID; a delegate's content is therefore not substituted. |
+|  | [`body`](inscription-body-source.md) | 1 | Evaluate the District claim using the claimant inscription's own envelope body, rather than content served for its inscription ID; a delegate's content is therefore not substituted. |
 |  | [`text`](plain-text-inscription.md) | 1 | Require the parsed MIME media type `text/plain`; charset parameters do not themselves decide MIME eligibility. |
 |  | [`ascii`](ascii-byte-matching.md) | 1 | Require the selected claim bytes to be US-ASCII (compatible with UTF-8 and other ASCII-compatible encodings), ignoring any declared charset. |
 |  | [`height`](claimed-block-exists.md) | 1 | Require `<height>` to be no greater than the inscription's reveal block height. |
