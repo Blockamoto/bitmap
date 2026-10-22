@@ -13,6 +13,9 @@ The Index column is deliberately blank until rule positions are assigned. Rows f
 |  | [Lowest inscription number](lowest-inscription-number.md) | 0 | 26–27 July 2023 | Prefer the eligible claim with the lowest signed Ordinals inscription number. |
 |  | [Bitcoin transaction ordering](bitcoin-transaction-ordering.md) | 1 | 28 September 2023 | Prefer the eligible claim in the earliest reveal block, then at the earliest Bitcoin transaction index. |
 |  | [Text MIME family exception for District claims](text-mime-family-exception.md) | 0 | 19 September 2025 | Also permit `text/*` MIME labels for otherwise exact `<height>.bitmap` content; an older Trac-derived interpretation superseded by a `text/plain` filter. |
+|  | [Nested delegate exclusion for District claims](nested-delegate-exclusion.md) | 0 | 19 September 2025 | Reject claims whose referenced delegate itself delegates onward; first seen in the later Trac-derived indexer, initially in the post-TAP-start path. |
 |  | [JSON MIME exception for District claims](json-mime-exception.md) | 0 | 19 September 2025 | Also permit the `application/json` MIME prefix for otherwise exact canonical `<height>.bitmap` District content; does not accept JSON-object claims. |
+|  | [Single-level delegate content resolution for District claims](delegate-content-resolution.md) | 0 | 25 September 2025 | Allow qualifying by the first referenced delegate's content body and content type instead of the inscription's own body. |
+|  | [Negative inscription number exclusion for District claims](negative-inscription-number-exclusion.md) | 0 | 19 May 2026 | Reject District inscriptions with a negative signed Ordinals inscription number. |
 
 History, evidence, and clarifications belong on each rule's page.
