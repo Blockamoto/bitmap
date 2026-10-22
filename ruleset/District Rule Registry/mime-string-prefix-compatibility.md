@@ -1,5 +1,6 @@
 # Literal MIME string-prefix compatibility for District claims
 
+**Code ID (provisional):** `mime_prefix_compatibility`  
 **Default:** `0` (provisional compatibility option)  
 **Earliest verified code snapshot:** 19 September 2025  
 **Evidence class:** Public `Trac-Systems/ord-tap` implementation.
