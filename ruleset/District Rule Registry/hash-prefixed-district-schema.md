@@ -22,3 +22,5 @@ When enabled, accept exact `#<height>.bitmap` as an alternative District schema.
 
 - This was a retracted documentation typo, not the intended canonical schema.
 - When enabled, it is an alternative to the canonical format, not an additional simultaneous requirement.
+- It is **a claim grammar**, independent of whether the bytes are obtained from [Inscription Body](inscription-body-source.md) or [Inscription Content](inscription-content-source.md). The 2023 tutorial did not prescribe those later source-selection definitions.
+- [Delegate Tag Exclusion](delegate-tag-exclusion.md) is an independent eligibility veto, not part of the hash-prefixed schema.
