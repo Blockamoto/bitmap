@@ -18,4 +18,5 @@ Accept exact `<height>.bitmap` content, with height `0` or a decimal integer wit
 ## Clarifications
 
 - Only decimal height `0` may begin with a zero.
-- Further evidence and rule lineage remain to be audited.
+- The term **“content” does not yet settle which inscription's bytes are evaluated** when a candidate carries a delegate tag. That is an [explicit open District registry decision](DISTRICT-CONTENT-OPEN-QUESTION.md), and this page does not silently define own/undelegated content versus one-level effective/served content.
+- The first published syntax and the Trac-derived content-resolution alternatives are kept distinct. Further evidence and rule lineage remain to be audited.
