@@ -15,7 +15,7 @@ When enabled (`1`), evaluate the candidate's District claim schema against **ins
 
 When disabled (`0`), this source-selection rule contributes no served-content candidate. It does not itself require the claimant to have, or to lack, a delegate.
 
-This selects only **the content source**. The enabled [BMP101](bmp101-district-prototype-schema.md), [canonical](canonical-district-schema.md), or [hash-prefixed](hash-prefixed-district-schema.md) schema still decides whether the selected bytes qualify. MIME eligibility and decoding remain independent decisions, even though a served HTTP response can carry the delegate's MIME.
+This selects only **the content source**. The independently enabled [BMP101](bmp101-district-prototype-schema.md) or [canonical](canonical-district-schema.md) claim schema still decides whether the selected bytes qualify. The retracted hash-prefixed tutorial typo is **not** an accepted schema (see [historical note](README.md#excluded-historical-typo)). MIME eligibility and decoding remain independent decisions, even though a served HTTP response can carry the delegate's MIME.
 
 ## History and evidence
 
