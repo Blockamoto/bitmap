@@ -16,6 +16,7 @@ When enabled, reject a District candidate whose inscription contains a delegatio
 ## Clarifications
 
 - This veto is logically separate from [single-level delegate content resolution](delegate-content-resolution.md). An indexer may permit first-level delegates while rejecting nested ones.
+- It **presupposes that delegate-tagged inscriptions are eligible in the first place**, which is not yet settled for the Bitmap Standard. See the [open District content and delegation question](DISTRICT-CONTENT-OPEN-QUESTION.md). “Undelegated content” as a body source is not, by itself, an all-delegates veto.
 - The September 2025 early gate placement affects which reveal heights actually encountered the check.
 - If a referenced inscription cannot be found, the code does not treat that absence as proof of nesting; unresolved delegation is a separate edge case.
 - District claim recognition only. Parcel parent/child references and asset transfers are unrelated.
