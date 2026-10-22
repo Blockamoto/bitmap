@@ -5,12 +5,12 @@
 | Index | ID | Standard | Definition |
 | --- | --- | :---: | --- |
 |  | [`schema`](canonical-district-schema.md) | 1 | Require the entire selected claim to use canonical `<height>.bitmap` syntax (decimal height, lowercase suffix), matching the [regex](district-claim.regex). |
-|  | [`body`](inscription-body-source.md) | 1 | Evaluate the claimant inscription's own undelegated envelope body. |
+|  | [`body`](inscription-body-source.md) | 1 | Evaluate the District claim using the claimant inscription's own undelegated envelope body, rather than content served for its inscription ID; a delegate's content is therefore not substituted. |
 |  | [`text`](plain-text-inscription.md) | 1 | Require the parsed MIME media type `text/plain`; charset parameters do not themselves decide MIME eligibility. |
 |  | [`ascii`](ascii-byte-matching.md) | 1 | Require the selected claim bytes to be US-ASCII (compatible with UTF-8 and other ASCII-compatible encodings), ignoring any declared charset. |
 |  | [`height`](claimed-block-exists.md) | 1 | Require `<height>` to be no greater than the inscription's reveal block height. |
 |  | [`fif`](fif.md) | 1 | First is first: recognise the first eligible District claimant in Bitcoin reveal order (block, transaction, input, then inscription reveal within that input; TXI). |
-|  | [`content`](inscription-content-source.md) | 0 | Evaluate content served for the claimant inscription ID, potentially supplied by its delegate. |
+|  | [`content`](inscription-content-source.md) | 0 | Evaluate the District claim using content served for the claimant inscription ID, rather than reading its own envelope body directly; that content may therefore be supplied by a delegate. |
 |  | [`precedence_unix_timestamp`](unix-timestamp-ordering.md) | 0 | Rank eligible reveals by the Bitcoin reveal block's `nTime`; ties need explicit handling. |
 |  | [`precedence_inscription_number`](lowest-inscription-number.md) | 0 | Rank eligible claims by lowest signed Ordinals inscription number. |
 |  | [`strict_height`](strict-prior-reveal-height.md) | 0 | Require claimed block height strictly below reveal height, excluding same-block claims. |
