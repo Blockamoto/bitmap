@@ -6,7 +6,7 @@
 
 ## Definition
 
-Require the claimed height to be no greater than the inscription's reveal-block height.
+Require `<height>` to be no greater than the inscription's reveal block height.
 
 ## History
 

@@ -29,7 +29,7 @@ Relevant changes: [Initial port](https://github.com/Trac-Systems/ord-tap/commit/
 
 - **14 July 2023:** [Blockamoto Labs source](https://github.com/blockamotolabs/ruleset/commit/d140da22635b2d286b9b1960f5b3c76ba1a66632) already describes **lowest inscription number** as the winner; this is earlier than the 26–27 July GitBook date previously used in the registry. [Lowest inscription number](lowest-inscription-number.md) now records that primary evidence.
 - **18 July 2023:** [Blockamoto Labs commit `f43970c`](https://github.com/blockamotolabs/ruleset/commit/f43970ccd8241d3d630a13be8d80a9fff71c62bf) edits claimed block eligibility from `≤` to `<` reveal-block height. The stronger exclusion is preserved as the **default-off** [Strictly earlier reveal height](strict-prior-reveal-height.md) alternative; the July GitBook still explains `≤`. Do not assume that Trac's unseen writer enforced `<`.
-- **22 September 2023:** [Blockamoto Labs commit `754d4d7`](https://github.com/blockamotolabs/ruleset/commit/754d4d7eda182de76ad543844e530c53426c855c) changes winner phrasing from lowest inscription number to **first valid inscription transaction on block**, and the [District file follow-up](https://github.com/blockamotolabs/ruleset/commit/b94efb8f0982d7561a4582cfdb1937c2597cb63c) confirms it the same day. [Bitcoin transaction ordering](bitcoin-transaction-ordering.md) now uses this earliest public source, instead of September 28. The complete tie-breaking algorithm still requires definition; published source wording does not verify deployment.
+- **22 September 2023:** [Blockamoto Labs commit `754d4d7`](https://github.com/blockamotolabs/ruleset/commit/754d4d7eda182de76ad543844e530c53426c855c) changes winner phrasing from lowest inscription number to **first valid inscription transaction on block**, and the [District file follow-up](https://github.com/blockamotolabs/ruleset/commit/b94efb8f0982d7561a4582cfdb1937c2597cb63c) confirms it the same day. [FIF (First Is First)](fif.md) records this historical evidence and now specifies TXI reveal order. The published 2023 phrase does not independently verify that complete order in the original Trac deployment.
 
 ## Source-selection binaries and delegate-tag veto, distinct from Trac rules
 
@@ -43,7 +43,7 @@ The body-source rule has directly related verified code from **19 September 2025
 
 The [District creation routine](https://github.com/Trac-Systems/ord-tap/blob/main/src/index/updater/inscription_updater/tap/ops/bitmap.rs) requires the body to contain a canonical lowercase `<height>.bitmap` string with no leading zeros, rejects future claimed heights, and preserves the first accepted claim for each District height using the existing `bm/<height>` record. These overlap the registry's canonical schema, claimed-block-exists, and winner-order rules.
 
-The public routine uses the indexer's processing order, while the registry currently defines *earliest reveal block, then Bitcoin transaction index*. The winner when **multiple qualifying inscriptions occur in the same Bitcoin transaction** still needs an explicit order-of-envelopes clarification and, ideally, a test fixture.
+The public routine uses the indexer's processing order; the current [`fif`](fif.md) draft explicitly uses Bitcoin block, transaction, input and in-input inscription reveal order (TXI). Match that policy to pinned Ord envelope-parser behaviour and test fixtures before claiming equivalence with Trac's historical implementation.
 
 ## District-specific edge cases still to classify
 
