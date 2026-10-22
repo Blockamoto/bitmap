@@ -4,7 +4,7 @@
 
 | Index | ID | Standard | Definition |
 | --- | --- | :---: | --- |
-|  | [`regex`](canonical-district-schema.md) | 1 | Fully match `^(?:0|[1-9][0-9]*)\.bitmap$`: decimal `height`, lowercase `.bitmap`, with no extra characters, spaces or newlines. |
+|  | [`schema`](canonical-district-schema.md) | 1 | Require the entire selected claim to use canonical `<height>.bitmap` syntax (decimal height, lowercase suffix), matching the [regex](district-claim.regex). |
 |  | [`inscription_body`](inscription-body-source.md) | 1 | Evaluate the claimant inscription's own undelegated envelope body. |
 |  | [`inscription_content`](inscription-content-source.md) | 0 | Evaluate content served for the claimant inscription ID, potentially supplied by its delegate. |
 |  | [`text`](plain-text-inscription.md) | 1 | Require the parsed MIME media type `text/plain`; charset parameters do not themselves decide MIME eligibility. |

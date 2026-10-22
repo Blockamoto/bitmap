@@ -1,14 +1,20 @@
 # Canonical District schema
 
-**Code ID (provisional):** `regex`  
+**Code ID (provisional):** `schema`  
 **Standard:** `1`  
 **Introduced:** 1 June 2023
 
 ## Definition
 
-Require the **entire selected claim** to match the canonical District regex `^(?:0|[1-9][0-9]*)\.bitmap$`: `height` is a non-negative decimal Bitcoin block height without leading zeros (except `0`), followed by lowercase `.bitmap`. Reject any additional characters, including spaces, carriage returns, newlines, BOMs or invisible Unicode characters.
+Require the **entire selected claim** to use canonical District format `<height>.bitmap`, matching the [District regex](district-claim.regex). The `height` is a non-negative decimal Bitcoin block height without leading zeros (except `0`), followed by the lowercase suffix `.bitmap`. Reject any extra characters, including spaces, carriage returns, newlines, BOMs or invisible Unicode characters.
 
-**Match semantics:** use a true **full-string match** of `(?:0|[1-9][0-9]*)\.bitmap` (or an equivalent exact-end check), not only a regex search using `^` and `$`, since some engines allow `$` immediately before a final newline. Do not trim or normalize. The schema does not choose own-body versus served-content source.
+**Regex:** [Standalone District claim regex](district-claim.regex)
+
+```regex
+^(?:0|[1-9][0-9]*)\.bitmap$
+```
+
+**Match semantics:** Use a true **full-string match** (or equivalent exact-end check), not only a regex search using `^` and `$`. Some engines permit `$` immediately before a final newline, which would incorrectly admit trailing whitespace. Do not trim or normalize. The schema does not choose own-body versus served-content source.
 
 ## History
 
