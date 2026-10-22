@@ -1,5 +1,6 @@
 # Inscription Body: District claim source
 
+**Code ID (provisional):** `inscription_body`  
 **Default:** `1` (provisional current-profile value)  
 **Earliest verified related code:** 19 September 2025 (`ord-tap` initial public snapshot)  
 **Explicit 2026 clarification:** 16 October 2026 working specification, subsequently revised 21 October.  
