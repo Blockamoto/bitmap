@@ -1,5 +1,6 @@
 # Raw strict UTF-8 decoding for District claims
 
+**Code ID (provisional):** `raw_utf8_strict`  
 **Default:** `0` (off; independent decoding alternative)  
 **Earliest verified public code:** 5 December 2023 (Best in Slot's OPI Bitmap module)  
 **Status:** Historical comparison option; its `1` behaviour is evidenced in OPI, not attributed to the 2023 Trac service.
