@@ -76,6 +76,25 @@ Trac has more than one relevant historical public artifact. Do **not** treat the
 
 **Open checks:** Seek 2023 writer evidence for historical introduction. Evaluate string-prefix anomalies separately from the intended `application/json` alternative; do not silently fold MIME-prefix quirks into the registry rule.
 
+### TRAC-D03 — Nested delegate exclusion
+
+**Definition:** A normal one-level delegation is A → B, where inscription A declares B as its content delegate and B does **not** itself delegate. A **nested delegate** is A → B → C (or longer), where the directly referenced delegate B has its own delegate tag. This is not the same thing as Ordinals parent/child provenance.
+
+**Implementation behaviour and activation:**
+- The Rust code tests whether the inscription referenced by A's delegate tag itself has a delegate, using `index.get_inscription_by_id(delegate_id)` followed by `insc.delegate().is_some()`. When that check is true, the inscription creation handler returns without registering the District. This is a specific **second-hop veto**, not an unconditional ban on all one-level delegates.
+- In the **initial public Rust snapshot (19 September 2025)**, the Bitmap feature is gated at mainnet block **779,832** and the broader TAP processing at **801,993**. For heights **779,832–801,992**, the Bitmap creation path is executed **before** the nested-delegate veto, which means this particular test does **not** run on that path. At and after **801,993**, the test precedes the Bitmap creation call. **This does not by itself establish that a given nested claim was accepted in the earlier range**: content type, original-body parsing and other checks still matter.
+- In the **25 September 2025** revision, the nested check was moved **ahead of the TAP-start split**, after the Bitmap activation check. It consequently runs for Bitmap processing from mainnet block **779,832** onward when the revised implementation replays history. The same revision also resolves the *effective payload* from a permitted single-level delegate before testing MIME and District body; that delegate-resolution behaviour should remain distinct from the nested-delegate veto.
+
+**Dated evidence:**
+- **19 September 2025, earliest verified public snapshot:** [initial commit `3f3f851`](https://github.com/Trac-Systems/ord-tap/commit/3f3f851a00301b780e333fc9d8a3c3eaf29920e3); [pre-TAP Bitmap fast path and later nested guard](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater.rs#L981-L1039); [activation heights](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater/tap/mod.rs#L9-L11).
+- **24 September 2025, still gated:** [commit `ecf04c7` source](https://github.com/Trac-Systems/ord-tap/blob/ecf04c76c2cd8c072751fea6e7c376eb48cf8749/src/index/updater/inscription_updater.rs#L985-L1044) still places the nested veto after the early return for pre-TAP Bitmap indexing.
+- **25 September 2025, verified scope change:** [commit `acf6b7b`](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea); [revised handler](https://github.com/Trac-Systems/ord-tap/blob/acf6b7bbc7862e50999edd42c02ae170dfe23eea/src/index/updater/inscription_updater.rs#L1023-L1064) checks for nested delegation **before** the TAP-start branch, and resolves the first delegate's payload.
+- **2023 history:** The original Trac District writer's delegation and nested-delegation policy remains **unverified** from the available public API README; do not backdate the Rust rule to 2023.
+
+**Extracted candidate District rule:** *Nested Delegate Exclusion*, binary **on/off**: when on, an inscription naming B as its delegate is ineligible if B itself names another delegate. This must not be conflated with (a) prohibiting all delegates or (b) resolving a one-level delegate's body. **Default for the registry is undecided; no registry change in this audit.**
+
+**Open checks:** Compare historical Trac results around the relevant block ranges, clarify missing/deleted delegate lookup behaviour, and seek pre-September-2025 original writer evidence. The September 2025 commit date describes the *published Rust implementation*, not necessarily the historical introduction of a rule in Trac production.
+
 ## Next checkpoint
 
 Continue with the next **District** rule from the Trac code, verify its commit history, and append findings here. Do not move to another indexer or to Parcel rules until Trac District is complete.
