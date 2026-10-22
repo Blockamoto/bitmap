@@ -4,7 +4,7 @@ Initial District draft. The **Index** column is intentionally blank. Rows are ar
 
 | Index | Rule | Default | Introduced | Definition |
 | --- | --- | :---: | --- | --- |
-|  | BMP101 District prototype schema | 0 | Before 1 June 2023 (exact date unverified) | Accept a JSON District claim with `"p":"bmp101"`, `"op":"dis"`, and a `"dis<height>":"<name>"` entry; `"memo"` is optional. |
+|  | BMP101 District prototype schema | 0 | 24 May 2023 (public release) | Accept a JSON District claim with `"p":"bmp101"`, `"op":"dis"`, and a `"dis<height>":"<name>"` entry; `"memo"` is optional. |
 |  | Canonical District schema | 1 | 1 June 2023 (`0.bitmap` inscribed as `text/plain`) | Accept exact `<height>.bitmap` content, with height `0` or a decimal integer without leading zeros. |
 |  | Hash-prefixed District schema | 0 | 3 June 2023 | Accept exact `#<height>.bitmap` as an alternative District schema. |
 |  | Text MIME family | 0 | June 2023 | Require the inscription's MIME type to begin with `text/` (subtype unrestricted). |
