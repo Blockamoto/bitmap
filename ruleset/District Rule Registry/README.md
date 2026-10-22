@@ -11,7 +11,6 @@
 |  | [`height`](claimed-block-exists.md) | 1 | Require `<height>` to be no greater than the inscription's reveal block height. |
 |  | [`fif`](fif.md) | 1 | First is first: recognise the first eligible District claimant in Bitcoin reveal order (block, transaction, input, then inscription reveal within that input; TXI). |
 |  | [`content`](inscription-content-source.md) | 0 | Evaluate the District claim using content served for the claimant inscription ID, rather than reading its own envelope body directly; that content could therefore be supplied by a delegate. |
-|  | [`precedence_unix_timestamp`](unix-timestamp-ordering.md) | 0 | Rank eligible reveals by the Bitcoin reveal block's `nTime`; ties need explicit handling. |
 |  | [`precedence_inscription_number`](lowest-inscription-number.md) | 0 | Rank eligible claims by lowest signed Ordinals inscription number. |
 |  | [`strict_height`](strict-prior-reveal-height.md) | 0 | Require claimed block height strictly below reveal height, excluding same-block claims. |
 |  | [`delegate_content_resolution`](delegate-content-resolution.md) | 0 | Reproduce Trac-derived one-hop delegate-content lookup and fallback as a separate comparison policy. |
