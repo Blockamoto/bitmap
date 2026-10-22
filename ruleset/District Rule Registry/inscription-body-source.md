@@ -11,7 +11,7 @@ When enabled (`1`), evaluate the District claim schema against **the claimant in
 
 When disabled (`0`), this source-selection rule contributes no claimant-body candidate. It **does not** mean “follow a delegate”; the alternate [Inscription Content](inscription-content-source.md) source has its own binary setting.
 
-This rule selects **where claim bytes come from**, not which schema is valid. The separate [BMP101 prototype](bmp101-district-prototype-schema.md), [canonical `<height>.bitmap`](canonical-district-schema.md), and [hash-prefixed schema](hash-prefixed-district-schema.md) checks are applied to a selected candidate source, using whatever independent decoding and MIME eligibility rules are selected.
+This rule selects **where claim bytes come from**, not which schema is valid. The separate [BMP101 prototype](bmp101-district-prototype-schema.md) and [canonical `<height>.bitmap`](canonical-district-schema.md) schemas are applied to a selected candidate source, using whatever independent decoding and MIME eligibility rules are selected. The old hash-prefixed tutorial typo is **not** a selectable schema; see [excluded historical typo](README.md#excluded-historical-typo).
 
 ## History and evidence
 
