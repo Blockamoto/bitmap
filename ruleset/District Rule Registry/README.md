@@ -9,7 +9,7 @@
 |  | [`inscription_body`](inscription-body-source.md) | 1 | Evaluate the claimant inscription's own undelegated envelope body. |
 |  | [`inscription_content`](inscription-content-source.md) | 0 | Evaluate content served for the claimant inscription ID, potentially supplied by its delegate. |
 |  | [`text`](plain-text-inscription.md) | 1 | Require the parsed MIME media type `text/plain`; charset parameters do not themselves decide MIME eligibility. |
-|  | [`strict`](raw-utf8-strict-decoding.md) | 1 | Decode selected bytes as strict UTF-8, ignoring any declared charset; canonical ASCII claims then match exact ASCII bytes. |
+|  | [`strict`](raw-utf8-strict-decoding.md) | 1 | Decode selected bytes as strict UTF-8 (ASCII-compatible), ignoring any declared charset; canonical District claims must match exact ASCII bytes. |
 |  | [`height`](claimed-block-exists.md) | 1 | Require the claimed block height to be no greater than the inscription's reveal-block height. |
 |  | [`first`](first-eligible-wins.md) | 1 | Recognize the first eligible District claimant under the independently selected precedence comparator. |
 |  | [`precedence_unix_timestamp`](unix-timestamp-ordering.md) | 0 | Rank eligible reveals by the Bitcoin reveal block's `nTime`; ties need explicit handling. |
