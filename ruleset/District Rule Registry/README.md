@@ -1,49 +1,77 @@
 # District Rule Registry
 
-The **Index** column remains deliberately blank until rule positions are assigned. Rows are arranged in **provisional historical order**, not in the order of our audit. Once an Index is assigned, later discoveries are appended without renumbering.
+**Status:** Draft for production review, not a frozen or executable bit registry. **Scope:** Districts only. Last reviewed 22 October 2026.
 
-The **Default** is the currently proposed Standard-profile binary value (`1` enabled; `0` disabled), **not** proof of what every historical indexer enforced. **Introduced** means the earliest identified evidence for the policy or candidate in the linked rule page. Dates from a later implementation are not backdated to the original 2023 Trac service. An undated historical recollection is positioned tentatively and visibly marked.
+Rules are now organized by **the decision they make**, in an approximate candidate-evaluation sequence. **Within each decision group**, rows keep the earliest verified historical publication or code snapshot in date order. Undated recollections are explicitly provisional. This grouping is for review, not a claim that the original 2023 software executed them in this exact order.
 
-| Index | Rule | Default | Introduced / earliest verified evidence | Definition |
-| --- | --- | :---: | --- | --- |
-|  | [BMP101 District prototype schema](bmp101-district-prototype-schema.md) | 0 | 24 May 2023 | Historical JSON `bmp101` District claim alternative; not the canonical `<height>.bitmap` format. |
-|  | [Canonical District schema](canonical-district-schema.md) | 1 | 1 June 2023 | Accept an exact `<height>.bitmap` claim with canonical decimal height (no leading zeros). Claim source is selected independently, without rewriting 2023 terminology. |
-|  | [Hash-prefixed District schema](hash-prefixed-district-schema.md) | 0 | 3 June 2023 | Historical retracted `#<height>.bitmap` example, as an optional alternative schema. |
-|  | [Plain-text inscription (`text/plain`)](plain-text-inscription.md) | 1 | 3 June 2023 (workflow evidence) | Require a `text/plain` media type, with valid MIME parameters permitted; early exclusivity is inferred, not directly proven. |
-|  | [Claimed block exists](claimed-block-exists.md) | 1 | 16 June 2023 | Require claimed height `≤` the inscription's Bitcoin reveal-block height. |
-|  | [Unix timestamp ordering](unix-timestamp-ordering.md) | 0 | **Undated; tentatively before July 2023** | Prefer eligible claim with lowest reveal-block header `nTime`; ties require an explicit outcome or deterministic tiebreak. |
-|  | [Lowest inscription number](lowest-inscription-number.md) | 0 | **14 July 2023** (first published source) | Prefer the eligible claim with the lowest signed Ordinals inscription number. |
-|  | [Strictly earlier reveal height](strict-prior-reveal-height.md) | 0 | **18 July 2023** (written alternative) | Require claimed height `<` the reveal-block height. Excludes same-block District claims; **not verified as a Trac enforcement rule**. |
-|  | [Bitcoin transaction ordering](bitcoin-transaction-ordering.md) | 1 | **22 September 2023** (written precedence change) | Prefer earliest eligible reveal block and then lowest Bitcoin transaction index; same-transaction ties remain to be specified. |
-|  | [Raw Strict UTF-8 Decoding](raw-utf8-strict-decoding.md) | 0 | **5 December 2023** (OPI first public code) | Decode selected claim-source bytes as strict UTF-8 regardless of declared charset; reject malformed UTF-8, independently of MIME eligibility. |
-|  | [Inscription Body source](inscription-body-source.md) | 1 | **19 September 2025** (earliest verified code; explicit clarification in 2026) | Independently allow schema matching against claimant's own envelope body bytes, without resolving delegation. |
-|  | [Text MIME family exception](text-mime-family-exception.md) | 0 | 19 September 2025 (Rust snapshot) | Also permit MIME `text/*` labels for an otherwise exact District claim; narrowed to `text/plain` on 25 September 2025. |
-|  | [JSON MIME exception](json-mime-exception.md) | 0 | 19 September 2025 (Rust snapshot) | Permit `application/json` as the MIME label, while still requiring canonical District claim bytes. |
-|  | [Nested delegate exclusion](nested-delegate-exclusion.md) | 0 | 19 September 2025 (Rust snapshot) | Reject a claimant whose immediate delegate itself declares another delegate; initially after a separate TAP-start gate. |
-|  | [Literal MIME string-prefix compatibility](mime-string-prefix-compatibility.md) | 0 | 19 September 2025 (Rust snapshot) | Reproduce permissive `starts_with` checks for **already enabled** MIME branches, including malformed labels with a matching prefix. |
-|  | [Inscription Content source](inscription-content-source.md) | 0 | **25 September 2025** (earliest verified served-payload use; explicit binary clarification in 2026) | Independently allow schema matching against the claimant's served/effective inscription content, which may come from a delegate. |
-|  | [Single-level delegate content resolution](delegate-content-resolution.md) | 0 | 25 September 2025 (Rust change) | Retain the specific Trac-derived one-hop resolution/fallback behaviour for historical comparison; overlaps the general served-content source and awaits profile-composition review. |
-|  | [Negative inscription number exclusion](negative-inscription-number-exclusion.md) | 0 | 19 May 2026 (Rust change) | Reject District candidate inscriptions with negative signed Ordinals inscription numbers. |
-|  | [Brotli Decompression Eligibility](brotli-decompression-eligibility.md) | 0 | **15 October 2026** (prior working rule) | Permit a separately specified Brotli-decompression eligibility route for claim bytes; does not reject encoding-tag presence. |
-|  | [Delegate Tag Exclusion](delegate-tag-exclusion.md) | 0 | **16 October 2026** (prior working spec; original inception unverified) | Reject any claimant declaring Ord delegate tag 11, regardless of its body, served content, or nested delegation. |
-|  | [Content-Encoding Tag Exclusion](content-encoding-tag-exclusion.md) | 0 | **21 October 2026** (atomic working specification) | Reject a claimant solely for declaring Ord content-encoding tag 9, independent of any decoding/decompression route. |
+The **Index** field remains blank until permanent numeric positions are authorized. **Code ID** values are *provisional short identifiers* for discussing one current question in code, not assigned bit positions, protocol keys or previous profile IDs. [Historic ID crosswalk and remaining production review gates](CODE-IDS-AND-REVIEW-GATES.md). Defaults are the current proposed profile values (`1` on, `0` off), **not** historical consensus or proof of indexer enforcement.
 
-## Text decoding and compression comparisons
+## Active District decisions
 
-**[Encoding comparison: OPI, Trac and Live OCI](TEXT-ENCODING-COMPARISON.md)** records the separate source evidence, distinguishing actual code from reported but unverified Live OCI behaviour. The OPI-backed [Raw Strict UTF-8 Decoding](raw-utf8-strict-decoding.md) switch is default `0`, independent of the `text/plain` filter and the selection of own-body or served-content bytes. A `0` does not silently fix the baseline decoder: the earlier working Standard proposed `declared_charset_strict`, but charset/BOM/fallback details are not yet final.
+### Claim schema (what counts as a District claim)
 
-The separate historical [Brotli Decompression Eligibility](brotli-decompression-eligibility.md) switch allows an alternative transform path if enabled; [Content-Encoding Tag Exclusion](content-encoding-tag-exclusion.md) concerns **presence of metadata tag 9**, not whether any bytes are decompressed. Both are default off. Do not equate Brotli, charset decoding, strict UTF-8, MIME type eligibility, or encoding-tag exclusion, and do not import unverified Live OCI outcomes.
+| Index | Code ID | Rule | Default | Earliest evidence / introduction | Decision |
+| --- | --- | --- | :---: | --- | --- |
+|  | `schema_bmp101` | [BMP101 District prototype schema](bmp101-district-prototype-schema.md) | 0 | 24 May 2023 | Historical JSON `bmp101` District claim alternative; not the canonical `<height>.bitmap` format. |
+|  | `regex` | [Canonical District schema](canonical-district-schema.md) | 1 | 1 June 2023 | Accept an exact `<height>.bitmap` claim with canonical decimal height (no leading zeros). Claim source is selected independently, without rewriting 2023 terminology. |
 
-## Three independent District questions: source and delegation
+### Claim-source selection and delegated lookup (whose bytes are tested)
 
-At the creator's direction, **Inscription Body**, **Inscription Content**, and **Delegate Tag Exclusion** are three independent binary rules in this registry, not a single bundled content/delegation setting. The first two select where claim bytes are obtained: (1) own/undelegated body or (2) served/effective inscription content, potentially delegated. The third is a pure veto on any declared delegate field. The already recorded **Nested Delegate Exclusion** asks a fourth, narrower question.
+| Index | Code ID | Rule | Default | Earliest evidence / introduction | Decision |
+| --- | --- | --- | :---: | --- | --- |
+|  | `inscription_body` | [Inscription Body source](inscription-body-source.md) | 1 | **19 September 2025** (earliest verified code; explicit clarification in 2026) | Independently allow schema matching against claimant's own envelope body bytes, without resolving delegation. |
+|  | `inscription_content` | [Inscription Content source](inscription-content-source.md) | 0 | **25 September 2025** (earliest verified served-payload use; explicit binary clarification in 2026) | Independently allow schema matching against the claimant's served/effective inscription content, which may come from a delegate. |
+|  | `delegate_content_resolution` | [Single-level delegate content resolution](delegate-content-resolution.md) | 0 | 25 September 2025 (Rust change) | Retain the specific Trac-derived one-hop resolution/fallback behaviour for historical comparison; overlaps the general served-content source and awaits profile-composition review. |
 
-[The content-source discussion, remaining combination semantics, and original 2023 wording are preserved here](DISTRICT-CONTENT-OPEN-QUESTION.md). Current proposed defaults are Body `1`, Content `0`, Delegate Tag Exclusion `0`; they are **not** retrospective claims about the 2023 standard or Trac service. Profiles with both content-source bits set or both unset need explicit treatment before execution. The existing Trac-specific one-hop content-resolution entry remains as historical implementation evidence, not an implied replacement for either source bit.
+### MIME type, text decoding and content encoding
 
-## Evidence and extraction status
+| Index | Code ID | Rule | Default | Earliest evidence / introduction | Decision |
+| --- | --- | --- | :---: | --- | --- |
+|  | `text` | [Plain-text inscription (`text/plain`)](plain-text-inscription.md) | 1 | 3 June 2023 (workflow evidence) | Require a `text/plain` media type, with valid MIME parameters permitted; early exclusivity is inferred, not directly proven. |
+|  | `raw_utf8_strict` | [Raw Strict UTF-8 Decoding](raw-utf8-strict-decoding.md) | 0 | **5 December 2023** (OPI first public code) | Decode selected claim-source bytes as strict UTF-8 regardless of declared charset; reject malformed UTF-8, independently of MIME eligibility. |
+|  | `text_mime_family` | [Text MIME family exception](text-mime-family-exception.md) | 0 | 19 September 2025 (Rust snapshot) | Also permit MIME `text/*` labels for an otherwise exact District claim; narrowed to `text/plain` on 25 September 2025. |
+|  | `json_mime` | [JSON MIME exception](json-mime-exception.md) | 0 | 19 September 2025 (Rust snapshot) | Permit `application/json` as the MIME label, while still requiring canonical District claim bytes. |
+|  | `mime_prefix_compatibility` | [Literal MIME string-prefix compatibility](mime-string-prefix-compatibility.md) | 0 | 19 September 2025 (Rust snapshot) | Reproduce permissive `starts_with` checks for **already enabled** MIME branches, including malformed labels with a matching prefix. |
+|  | `brotli` | [Brotli Decompression Eligibility](brotli-decompression-eligibility.md) | 0 | **15 October 2026** (prior working rule) | Permit a separately specified Brotli-decompression eligibility route for claim bytes; does not reject encoding-tag presence. |
+|  | `encoding_tag_exclusion` | [Content-Encoding Tag Exclusion](content-encoding-tag-exclusion.md) | 0 | **21 October 2026** (atomic working specification) | Reject a claimant solely for declaring Ord content-encoding tag 9, independent of any decoding/decompression route. |
 
-The Trac-derived public Rust implementation supplies **six** previously audited binary candidates: text MIME family exception, JSON MIME exception, nested delegate exclusion, literal MIME-prefix compatibility, one-level delegate content resolution, and negative inscription-number exclusion. The **Inscription Body** and **Inscription Content** source binaries preserve competing interpretations of what a claim is evaluated against, supported by later implementation evidence; the separate **Delegate Tag Exclusion** comes from the 16 October 2026 prior Bitmap comparison specification. The strict reveal-height rule is a **separate July 2023 authored-document alternative**, not a confirmed Trac implementation. Existing syntax, block-existence and winner selection rules are corroborated rather than duplicated. See [Trac District code audit](TRAC-DISTRICT-AUDIT.md) and [Trac source-lineage/evidence index](../../index/Trac.md).
+### Claimed-block eligibility (can the target block be claimed yet)
 
-**Open implementation comparisons, not automatically new dated rules:** Unknown/unavailable delegate fallback; evidence of actual Live OCI encoding acceptance; distinguishing strict and lossy UTF-8 *outcomes* under canonical ASCII grammar; concrete Brotli decompression pipeline/limits; unbound and reinscription flags; Bitcoin block `779832` as an *indexing coverage* start rather than intrinsic District eligibility; and multi-inscription same-transaction tie order. These need proof of distinct outcomes or an explicit policy decision before further indexed registry rules are created.
+| Index | Code ID | Rule | Default | Earliest evidence / introduction | Decision |
+| --- | --- | --- | :---: | --- | --- |
+|  | `height` | [Claimed block exists](claimed-block-exists.md) | 1 | 16 June 2023 | Require claimed height `≤` the inscription's Bitcoin reveal-block height. |
+|  | `strict_height` | [Strictly earlier reveal height](strict-prior-reveal-height.md) | 0 | **18 July 2023** (written alternative) | Require claimed height `<` the reveal-block height. Excludes same-block District claims; **not verified as a Trac enforcement rule**. |
 
-The original **2023 Trac writer code was not recovered**. Chronological published ruleset changes (including `≤` versus `<` height and lowest inscription number versus first transaction order) are **not** automatically evidence of live Trac behaviour. Preserve source and uncertainty on each page. No Parcel rules are included in this District registry.
+### Additional candidate exclusions (status and declared metadata)
+
+| Index | Code ID | Rule | Default | Earliest evidence / introduction | Decision |
+| --- | --- | --- | :---: | --- | --- |
+|  | `nested_delegate_exclusion` | [Nested delegate exclusion](nested-delegate-exclusion.md) | 0 | 19 September 2025 (Rust snapshot) | Reject a claimant whose immediate delegate itself declares another delegate; initially after a separate TAP-start gate. |
+|  | `negative_inscription_number_exclusion` | [Negative inscription number exclusion](negative-inscription-number-exclusion.md) | 0 | 19 May 2026 (Rust change) | Reject District candidate inscriptions with negative signed Ordinals inscription numbers. |
+|  | `delegate_exclusion` | [Delegate Tag Exclusion](delegate-tag-exclusion.md) | 0 | **16 October 2026** (prior working spec; original inception unverified) | Reject any claimant declaring Ord delegate tag 11, regardless of its body, served content, or nested delegation. |
+
+### Winner precedence (which eligible candidate takes the District)
+
+| Index | Code ID | Rule | Default | Earliest evidence / introduction | Decision |
+| --- | --- | --- | :---: | --- | --- |
+|  | `precedence_unix_timestamp` | [Unix timestamp ordering](unix-timestamp-ordering.md) | 0 | **Undated; tentatively before July 2023** | Prefer eligible claim with lowest reveal-block header `nTime`; ties require an explicit outcome or deterministic tiebreak. |
+|  | `precedence_inscription_number` | [Lowest inscription number](lowest-inscription-number.md) | 0 | **14 July 2023** (first published source) | Prefer the eligible claim with the lowest signed Ordinals inscription number. |
+|  | `precedence_bitcoin_reveal` | [Bitcoin transaction ordering](bitcoin-transaction-ordering.md) | 1 | **22 September 2023** (written precedence change) | Prefer earliest eligible reveal block and then lowest Bitcoin transaction index; same-transaction ties remain to be specified. |
+
+## Excluded historical typo
+
+**The hash-prefixed `#<height>.bitmap` example is not an active rule.** The creator confirmed that `0.bitmap` was the intended original exemplar, and the `#` form was a GitBook tutorial error, not a canonical claim schema or known independent indexer policy. The mistaken example appeared on **3 June 2023**, was corrected by **14 June**, and the **16 June verification guide** expressly rejected `#69.bitmap`. Historical evidence remains in the [3 June GitBook revision](https://gitbook.bitmap.land/~/revisions/AZO0a8slhI90dZCq0SNg/) and [archived verification instructions](https://github.com/Blockamoto/gitbook/blob/d541a50ee13da4637c38a77b9f8b69a541a741a1/archive/_old/bitmap-theory-101/how-to-verify-blocks.md). **No `#` schema switch or ID will be assigned.** This removes a withdrawn typo from the normative candidate set, without deleting the historical occurrence.
+
+## Dependencies and review boundaries
+
+**Source and delegation are separate:** `inscription_body` tests the inscription's own undelegated body; `inscription_content` tests content as served for that inscription ID, which may be supplied by a delegate; `delegate_exclusion` rejects a declared delegate tag; and `nested_delegate_exclusion` is only a second-hop veto. The Trac-specific `delegate_content_resolution` candidate overlaps with served content and is retained for versioned implementation comparison. [Source/delegation decision record](DISTRICT-CONTENT-OPEN-QUESTION.md). The paired source-bit combinations and unresolved delegate fallback are **not defined by a hidden default**.
+
+**MIME and decoding are independent:** The baseline `text` MIME rule is not a charset decoder. `raw_utf8_strict` is an OPI-backed alternative decoder and must not silently bypass `text`. `brotli` permits an extra decompression eligibility route; `encoding_tag_exclusion` rejects mere tag presence. [Trac, OPI and Live OCI evidence comparison](TEXT-ENCODING-COMPARISON.md), with Live OCI behaviour still awaiting direct audit.
+
+**Height and winner selection are different questions:** `height` admits a claim for the inscription's own reveal block (`≤`); `strict_height` is the documented `<` alternative. The three **precedence** rows are competing historical comparators, not three ordering requirements to combine silently. The older `first` rule (earliest eligible wins) is conceptually distinct from the legacy `fiftxi` bundled comparator; same-transaction and timestamp ties, alternative-mode conflicts and any independent `first` bit still require a versioned decision. See [code-ID crosswalk](CODE-IDS-AND-REVIEW-GATES.md).
+
+**Cursed versus reinscriptions:** A negative-number veto is narrower than a blanket cursed-status veto. The creator requested that **reinscription exclusion not be an active rule at present**; it remains only in [historical OPI evidence](https://github.com/Blockamoto/bitmap-old/blob/old/edge-cases/reinscriptions.md) and can be added later if warranted.
+
+**Evidence is not deployment:** The original **2023 Trac writer** remains unlocated. Dates on indexer-derived entries generally date **the earliest verified source snapshot**, not the rule's first production introduction. [Trac District audit](TRAC-DISTRICT-AUDIT.md) · [Trac source lineage](../../index/Trac.md).
+
+**Production gates still open:** Code IDs and Index positions are provisional; no canonical serialization or executable schema/decoder/transform/precedence contract is approved. [Review checklist and legacy-ID mapping](CODE-IDS-AND-REVIEW-GATES.md). Do not silently treat an unsupported combination as valid, a missing source as absent, or a historical rule variant as the currently selected profile. Parcel ruleset, `main`, and Bitcoin/Bitmap Chain commitments are not changed by this registry organization.
