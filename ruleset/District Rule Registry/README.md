@@ -12,5 +12,6 @@ The Index column is deliberately blank until rule positions are assigned. Rows f
 |  | [Unix timestamp ordering](unix-timestamp-ordering.md) | 0 | — | Prefer the eligible claim whose reveal block has the lowest Unix timestamp; ties remain unresolved without an additional rule. |
 |  | [Lowest inscription number](lowest-inscription-number.md) | 0 | 26–27 July 2023 | Prefer the eligible claim with the lowest signed Ordinals inscription number. |
 |  | [Bitcoin transaction ordering](bitcoin-transaction-ordering.md) | 1 | 28 September 2023 | Prefer the eligible claim in the earliest reveal block, then at the earliest Bitcoin transaction index. |
+|  | [JSON MIME exception for District claims](json-mime-exception.md) | 0 | 19 September 2025 | Also permit the `application/json` MIME prefix for otherwise exact canonical `<height>.bitmap` District content; does not accept JSON-object claims. |
 
 History, evidence, and clarifications belong on each rule's page.
