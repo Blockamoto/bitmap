@@ -5,7 +5,7 @@
 
 ## Definition
 
-Accept exact `<height>.bitmap` content, with height `0` or a decimal integer without leading zeros.
+Accept an exact `<height>.bitmap` claim from the **selected inscription source**, with height `0` or a decimal integer without leading zeros. The schema does not choose own-body versus served-content source.
 
 ## History
 
@@ -18,5 +18,6 @@ Accept exact `<height>.bitmap` content, with height `0` or a decimal integer wit
 ## Clarifications
 
 - Only decimal height `0` may begin with a zero.
-- The term **“content” does not yet settle which inscription's bytes are evaluated** when a candidate carries a delegate tag. That is an [explicit open District registry decision](DISTRICT-CONTENT-OPEN-QUESTION.md), and this page does not silently define own/undelegated content versus one-level effective/served content.
+- The historically used “district claim command” wording did not explicitly define the data source. The registry now records [Inscription Body](inscription-body-source.md) and [Inscription Content](inscription-content-source.md) as **separate, independently switchable binary sources**, without retroactively attributing either definition to 2023.
+- [Delegate Tag Exclusion](delegate-tag-exclusion.md) and [Nested Delegate Exclusion](nested-delegate-exclusion.md) are separate eligibility decisions. See [open combination and provenance questions](DISTRICT-CONTENT-OPEN-QUESTION.md).
 - The first published syntax and the Trac-derived content-resolution alternatives are kept distinct. Further evidence and rule lineage remain to be audited.
