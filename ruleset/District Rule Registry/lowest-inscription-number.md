@@ -20,6 +20,16 @@ Prefer the eligible claim with the lowest signed Ordinals inscription number.
 - [14 July 2023 first-party ruleset snapshot](https://github.com/blockamotolabs/ruleset/blob/d140da22635b2d286b9b1960f5b3c76ba1a66632/README.md)
 - [Historical District Ruleset GitBook snapshot](https://github.com/Blockamoto/gitbook/blob/d541a50ee13da4637c38a77b9f8b69a541a741a1/areas/the-bitmap-standard/district-ruleset.md)
 
+## OPI published-code comparison (audited 23 October 2026)
+
+The current public [Best in Slot OPI Rust reader](https://github.com/bestinslot-xyz/OPI/blob/main/ord/db_reader/src/server.rs#L662-L729) fetches new Bitmap inscriptions for **one block at a time**, applies its intake checks, then explicitly sorts the returned candidates **by ascending signed `inscription_number`** (lines 726–727). Its [`is_valid_bitmap` check](https://github.com/bestinslot-xyz/OPI/blob/main/ord/db_reader/src/server.rs#L309-L325) rejects negative inscription numbers before that sort. The [Python Bitmap indexer](https://github.com/bestinslot-xyz/OPI/blob/main/modules/bitmap_index/bitmap_index.py) loops through the already ordered response, accepting only the first eligible entry for each Bitmap number (`ON CONFLICT (bitmap_number) DO NOTHING`). Blocks are processed in height order. Thus **OPI implements block-height-first, then lowest *eligible* inscription number within a block**; it does **not** globally sort all historical candidates by inscription number.
+
+This demonstrates that inscription-number ordering remains an explicit choice in OPI's **published code**, rather than being only a 2023 textual rule. It does **not** verify the exact version previously deployed by OPI's hosted service or establish which third-party marketplaces use this code.
+
+**Outcome caveat:** [Ord's inscription-number documentation](https://github.com/ordinals/ord/blob/master/docs/src/inscriptions.md#inscription-numbers) says positive numbers generally follow block, transaction and envelope reveal order, but documents an exceptional historical fee-spend numbering case in which inscriptions revealed and immediately spent to fees are numbered as if they appeared last in their block. Negative cursed numbering is another divergence source, although the cited OPI reader excludes negative numbers. Accordingly, **a different comparator does not by itself prove a different winning District**: identify a same-District, same-block collision with a reversed ordering among eligible candidates before claiming an observed conflict with `fif`.
+
+This OPI implementation is a **comparison target**, not an amendment to the present rule ID, its Standard `0` value, or the separate default-off `negative_inscription_number_exclusion` binary. Do not automatically apply OPI's negative-number veto when enabling this precedence rule.
+
 ## Clarifications
 
 - Literal signed comparison means negative cursed inscription numbers can outrank positive numbers, and lower negative numbers may be assigned later.
