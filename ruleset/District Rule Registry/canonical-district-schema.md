@@ -6,7 +6,9 @@
 
 ## Definition
 
-Accept an exact `<height>.bitmap` claim from the **selected inscription source**, with height `0` or a decimal integer without leading zeros. The schema does not choose own-body versus served-content source.
+Require the **entire selected claim** to match the canonical District regex `^(?:0|[1-9][0-9]*)\.bitmap$`: `height` is a non-negative decimal Bitcoin block height without leading zeros (except `0`), followed by lowercase `.bitmap`. Reject any additional characters, including spaces, carriage returns, newlines, BOMs or invisible Unicode characters.
+
+**Match semantics:** use a true **full-string match** of `(?:0|[1-9][0-9]*)\.bitmap` (or an equivalent exact-end check), not only a regex search using `^` and `$`, since some engines allow `$` immediately before a final newline. Do not trim or normalize. The schema does not choose own-body versus served-content source.
 
 ## History
 

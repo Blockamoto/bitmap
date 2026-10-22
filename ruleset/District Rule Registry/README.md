@@ -4,8 +4,7 @@
 
 | Index | ID | Standard | Definition |
 | --- | --- | :---: | --- |
-|  | [`schema_bmp101`](bmp101-district-prototype-schema.md) | 0 | Recognize the historical BMP101 JSON District-claim format. |
-|  | [`regex`](canonical-district-schema.md) | 1 | Require an entire selected claim to match canonical `<height>.bitmap` syntax, with decimal height and lowercase suffix. |
+|  | [`regex`](canonical-district-schema.md) | 1 | Fully match `^(?:0|[1-9][0-9]*)\.bitmap$`: decimal `height`, lowercase `.bitmap`, with no extra characters, spaces or newlines. |
 |  | [`inscription_body`](inscription-body-source.md) | 1 | Evaluate the claimant inscription's own undelegated envelope body. |
 |  | [`inscription_content`](inscription-content-source.md) | 0 | Evaluate content served for the claimant inscription ID, potentially supplied by its delegate. |
 |  | [`text`](plain-text-inscription.md) | 1 | Require the parsed MIME media type `text/plain`; charset parameters do not themselves decide MIME eligibility. |
@@ -26,7 +25,7 @@
 |  | [`negative_inscription_number_exclusion`](negative-inscription-number-exclusion.md) | 0 | Reject claimants with negative signed Ordinals inscription numbers. |
 |  | [`delegate_exclusion`](delegate-tag-exclusion.md) | 0 | Reject any claimant declaring Ord delegate field 11, independently of its own body. |
 
-**Standard** is the *proposed* Bitmap Standard profile value (`1` enabled; `0` disabled), not a claim that every historical indexer used it. Rules that resolve the fundamental schema, content source, text interpretation, height and winner questions appear first; additional historical exceptions follow. Related decisions remain adjacent. No rule positions or profile hashes have been assigned.
+**Standard** is the *proposed* Bitmap Standard profile value (`1` enabled; `0` disabled), not a claim that every historical indexer used it. Rules that resolve the fundamental schema, content source, text interpretation, height and winner questions appear first; additional historical exceptions follow. Related decisions remain adjacent. The canonical `<height>.bitmap` syntax is the only active District claim schema; no prototype/alternate schema is selectable. No rule positions or profile hashes have been assigned.
 
 Text decoding currently has **one active rule**: [`strict`](raw-utf8-strict-decoding.md) = **`1`**. It decodes the selected inscription bytes as strict UTF-8, rejects malformed UTF-8, and passes the unchanged decoded string to the District schema. Because the canonical whole-string District grammar is ASCII-only, this accepts exactly the canonical ASCII byte sequence. A declared MIME `charset` does **not** change decoding in this Standard profile. The separate `text` rule still governs `text/plain` MIME eligibility.
 

@@ -20,5 +20,5 @@ When enabled, permit an inscription with a declared content type beginning with 
 - A deliberately separate, default-off historical alternative to the [plain-text inscription](plain-text-inscription.md) requirement. Activating this exception must not silently disable the latter for ordinary plain-text claims.
 - Source code uses a **string-prefix** test, not MIME parameter parsing; the independent historical compatibility option is recorded in [Literal MIME string-prefix compatibility](mime-string-prefix-compatibility.md).
 - What “content” means for a District candidate carrying a delegate is **not yet agreed**. See [District content semantics decision](DISTRICT-CONTENT-OPEN-QUESTION.md). This MIME label exception does not choose own versus delegated content.
-- Do not conflate this with the earlier, defunct BMP101 JSON object prototype: the bodies accepted here still match the canonical plain District claim syntax.
+- This does **not** introduce an alternative JSON-object claim grammar: the body must still match the canonical plain District claim syntax.
 - No Parcel, ownership, transfer, or staking semantics are implied.

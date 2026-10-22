@@ -9,14 +9,14 @@
 
 **Must selected District claim bytes be interpreted using strict UTF-8, regardless of any declared charset?** This is the current Standard's only decoding mode.
 
-- **`1` (on):** Obtain the raw bytes from the **selected inscription source**, decode those bytes as **UTF-8 with strict error handling**, and pass the decoded string to whichever District claim schema is enabled. **Invalid UTF-8 is rejected**, without replacement characters, charset fallback, Unicode normalization, trimming, decompressing, HTML extraction or JSON-object interpretation.
+- **`1` (on):** Obtain the raw bytes from the **selected inscription source**, decode those bytes as **UTF-8 with strict error handling**, and pass the decoded string to the canonical District claim schema. **Invalid UTF-8 is rejected**, without replacement characters, charset fallback, Unicode normalization, trimming, decompressing, HTML extraction or JSON-object interpretation.
 - **`0` (off):** This rule supplies **no decoder**. There is no active compatible/charset-aware fallback. Until an independent decoder is explicitly added and fully specified, `strict=0` is an incomplete, non-executable District profile. `0` does not mean lossy UTF-8 or skipped decoding.
 
 **Raw bytes are the input; the string schema is checked *after* strict decoding.** This is an encoding rule, not a prohibition on MIME labels. Thus `text/plain;charset=utf-8` may satisfy the separate text MIME rule, but a `charset=utf-16` label is **not honored by this decoder**. MIME eligibility remains independently configured.
 
 ## Raw UTF-8 and canonical ASCII-byte equivalence
 
-For an **entire exact canonical District claim** matching `(?:0|[1-9][0-9]*)\.bitmap`, all accepted characters are US-ASCII. RFC 3629 encodes US-ASCII characters in identical single octets in UTF-8. Therefore, strict raw UTF-8 decoding followed by a full canonical-string match accepts the **same candidate byte sequences** as a direct exact ASCII-byte match. This result assumes unchanged source bytes, no transformation or normalization and the canonical grammar. It is **not** asserted for historical BMP101 JSON or arbitrary text schemas.
+For an **entire exact canonical District claim** matching `(?:0|[1-9][0-9]*)\.bitmap`, all accepted characters are US-ASCII. RFC 3629 encodes US-ASCII characters in identical single octets in UTF-8. Therefore, strict raw UTF-8 decoding followed by a full canonical-string match accepts the **same candidate byte sequences** as a direct exact ASCII-byte match. This result assumes unchanged source bytes, no transformation or normalization and the canonical grammar. It does not grant eligibility to any alternative claim schema.
 
 A UTF-8 BOM decoded as U+FEFF, leading/trailing whitespace, final newline, zero-width characters and invalid UTF-8 must not be removed to manufacture a canonical string. Charset metadata is ignored *for decoding* in this mode, but independently configured MIME and encoding-tag checks still apply.
 
