@@ -1,34 +1,45 @@
-# Open question: what does a District inscription's “content” mean?
+# District source and delegation distinctions: 22 October 2026
 
-**Decision status:** **Unresolved. Do not infer or silently amend the Bitmap Standard.**  
-**Added to registry discussion:** 22 October 2026  
-**Not a dated historical rule and not assigned an Index number.**
+**Registry status:** **Three separate binary questions are now recorded**, at the creator's direction; original 2023 usage and certain cross-rule combinations remain unverified.  
+**Historical protection:** The original 2023 rules' “district claim command” and “inscription must contain” language is preserved as written. Do not substitute this 2026 clarification into a purported 2023 quotation.  
+**Index positions and executable profile semantics:** Pending.
 
-## The actual question
+## Recorded independent choices
 
-When a District rule says that an inscription **contains** exactly `<height>.bitmap`, what is the input?
+1. **[Inscription Body](inscription-body-source.md):** Enable evaluating the candidate against the claimant inscription's **own undelegated envelope body bytes**, regardless of what HTTP content serving would return.
+2. **[Inscription Content](inscription-content-source.md):** Enable evaluating the candidate against content that would be **served for the claimant inscription ID**. Under Ord's current content handler, a declared delegate can supply the served bytes; this is not a different claim schema.
+3. **[Delegate Tag Exclusion](delegate-tag-exclusion.md):** Reject any claimant **merely for declaring a delegate**, regardless of how content was selected and whether its own bytes match.
 
-**A. Own / undelegated content.** Validate the bytes physically present in *the claimant inscription's own envelope* (Ord `Inscription.body()`, comparable to `/r/undelegated-content/<id>`). The candidate's own declared content type is tested separately.
+A fourth pre-existing rule, **[Nested Delegate Exclusion](nested-delegate-exclusion.md)**, rejects the narrower A → B → C scenario when A's immediate delegate B itself declares a delegate. It is **not** the same as all-delegates exclusion.
 
-**B. Effective / served content.** If the claimant inscription A carries a delegate tag to B, validate B's own content bytes and MIME as the effective content for A (one level, as implemented by Ord's `/content/<id>` route and the later Trac-derived code). Do not imply recursive traversal A → B → C.
+No one of these binaries is defined as the negation of another. The first two concern **source selection** only, the third and fourth concern **eligibility vetoes**.
 
-**C. Delegate-tag eligibility is a separate question.** Even if the content source is A's own bytes, a profile could either **allow** or **exclude** inscriptions that merely carry a delegation tag. “Use undelegated content” does not necessarily mean “reject all delegated inscriptions.” Conversely, permitting one-level delegation does not itself determine that the *delegated* body may satisfy a District claim.
+## Concrete distinction
 
-**D. Nested delegate exclusion** is a further independent veto, only relevant when a candidate carries a delegate tag that is otherwise eligible. It must not silently settle choices A–C.
+Suppose A's own body is `123.bitmap`, but it delegates to B whose body is `234.bitmap`.
 
-## Dated implementation evidence, not a standard decision
+- **Inscription Body** examines `123.bitmap` for A.
+- **Inscription Content** examines `234.bitmap` for A under Ord's one-hop served-content behaviour.
+- **Delegate Tag Exclusion** (if on) makes A ineligible regardless of which source(s) match.
+- **Nested Delegate Exclusion** (if on) rejects A only if B **also declares a delegate**, even if the content source might otherwise match.
 
-- [19 September 2025 initial `ord-tap` snapshot](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater.rs#L980-L1039): Bitmap creator receives the original `payload`; a nested-delegate check runs only in the later TAP path.
-- [25 September 2025 commit `acf6b7b`](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea): resolves `payload_eff` one level first, then applies the MIME and District body checks to those effective fields. A known nested delegate is rejected.
-- [Ord content endpoint](https://github.com/ordinals/ord/blob/master/src/subcommand/server/r.rs#L250-L279) follows one delegate hop; [undelegated content endpoint](https://github.com/ordinals/ord/blob/master/src/subcommand/server/r.rs#L623-L645) uses A's own inscription. The two endpoints do not define a Bitmap validity rule.
-- [Trac District audit](../../index/Trac.md) records the missing original 2023 writer and uncertainties. Do not backdate Rust semantics to 2023.
+If A has no delegate, its served and own-body bytes ordinarily coincide. Missing/unavailable delegate content is **not** automatically the claimant's own body in ordinary Ord HTTP semantics; a specific indexer may have a separate fallback quirk.
 
-## Separate rule and implementation questions to revisit
+## Historical sources and limits
 
-1. Should “content” in the **canonical District schema** be explicitly defined as A (own body), B (effective body), or should its rule describe an abstract candidate-input field chosen by an independent content-resolution rule?
-2. Are inscriptions carrying any delegate tag eligible, **even if** their own bytes match the District schema? A **delegate-tag exclusion** is a candidate policy, not decided or assigned a historical date here.
-3. Should single-level content resolution remain an independent off-by-default binary compatibility rule? [Current candidate](delegate-content-resolution.md).
-4. What happens when B is unavailable? `ord-tap`'s later Rust intake may fall back to A's original payload; this needs an explicit failure/fallback test and a choice about whether it warrants another binary.
-5. Can a candidate resolve to another delegate (nested A → B → C)? [Nested delegate exclusion](nested-delegate-exclusion.md) is independently defined but depends on the decisions above.
+- [July 2023 Blockamoto Labs District rules](https://github.com/blockamotolabs/ruleset/blob/d140da22635b2d286b9b1960f5b3c76ba1a66632/README.md) name the *district claim command* and grammar, without explicitly choosing own-body versus served-content source or a general delegate veto.
+- [19 September 2025 Trac-derived initial Rust Bitmap implementation](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater/tap/ops/bitmap.rs#L4-L23) parses the claimant's original `payload.body()`. This verifies that later public code, not the original 2023 writer.
+- [25 September 2025 `ord-tap` commit](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea) selects a one-level `payload_eff` and also moves a nested-delegate veto.
+- [Ord served-content handler](https://github.com/ordinals/ord/blob/master/src/subcommand/server/r.rs#L250-L279) follows one delegate hop; [undelegated content handler](https://github.com/ordinals/ord/blob/master/src/subcommand/server/r.rs#L623-L645) does not. Endpoint semantics aren't themselves a Bitmap rule.
+- [16 October 2026 prior District working specification](https://github.com/Blockamoto/bitmap-old/blob/ccf7271a61a2cead4781d4a2bb9c86da761f1cd6/DISTRICT-RULESET.md) explicitly distinguishes using one's own body from rejecting all delegates.
+- The original 2023 Trac writer remains unrecovered. Its actual enforcement of any alternative is **unknown**. The [Trac audit](../../index/Trac.md) stores what has and has not been observed.
 
-**Registry guardrail:** Keep existing candidate defaults and canonical content wording **provisional** until this discussion is settled. Do not infer an official 2023 rule from the 2025 Rust port or silently collapse delegate eligibility, content selection and nested delegation into one switch.
+## Not yet resolved
+
+- **Both source bits off:** No input source has been selected; an executable profile must define or reject this configuration.
+- **Both source bits on:** What if both sources match *different* District heights for the same inscription? There is no approved precedence, merge or simultaneous-claim interpretation yet. Do **not** silently impose an OR, AND, fallback or source-preference policy.
+- **Overlap with the [Single-Level Delegate Content Resolution](delegate-content-resolution.md) historical code option:** The later Trac implementation has source resolution and fallback details. Preserve its dated code record, but don't double-apply the same resolved content or assert these are automatically two independent filters with distinct outcomes.
+- **MIME and decoder linkage:** Which field's declared content type is tested when using served content, and how declared encoding interacts with selected bytes, requires explicit rules or fixtures. This does **not** change the distinction between body source and served source.
+- **Live OCI / Boppleton delegate policy:** The all-delegates exclusion is a separate candidate, currently off; verify the Live OCI implementation and earliest public date in the later District-only audit.
+
+**Current provisional default combination:** Inscription Body `1`; Inscription Content `0`; Delegate Tag Exclusion `0`; Nested Delegate Exclusion `0`. These are **working profile defaults**, not a declaration that an ambiguous 2023 author or original Trac implementation had specified these exact binaries. No Parcel interpretation is imported.
