@@ -4,7 +4,7 @@ Draft for review. The **Index** column is intentionally blank. Rows follow the b
 
 | Index | Rule | Default | Introduction | Definition | Evidence / rationale |
 | --- | --- | :---: | --- | --- | --- |
-|  | Canonical District schema | 1 | June 2023 | An inscription's content matches `^(?:0\|[1-9][0-9]*)\\.bitmap$` exactly. | Original `<height>.bitmap` format; no leading zeros or extra characters. |
+|  | Canonical District schema | 1 | June 2023 | Accept exact `<height>.bitmap` content, with height `0` or a decimal integer without leading zeros. | Original `<height>.bitmap` format; no leading zeros or extra characters. |
 |  | Hash-prefixed District schema | 0 | 3 June 2023 | Accept exact `#<height>.bitmap` as an **alternative** schema. | A tutorial typo, corrected on 14 June and explicitly rejected in the verification guide on 16 June. Schema alternatives are OR choices. |
 |  | Text MIME family | 0 | June 2023 | Require an inscription MIME type beginning with `text/`. | Retrospective executable interpretation of the early phrase “text inscription”; the published wording did not name a subtype. |
 |  | Claimed block exists | 1 | By 16 June 2023 | Claimed height must be no greater than the inscription's reveal-block height. | Excludes claims on future blocks. |
