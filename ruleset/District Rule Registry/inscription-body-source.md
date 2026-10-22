@@ -8,7 +8,7 @@
 
 ## Definition
 
-When enabled (`1`), evaluate the District claim schema against **the claimant inscription's own envelope body bytes**. This is the optional byte sequence after the inscription's field/body separator in its Bitcoin reveal. It is also called the *undelegated body*; no delegate target is fetched, substituted or followed to obtain these bytes.
+When enabled (`1`), evaluate the District claim schema against **the claimant inscription's own envelope body bytes**, rather than content served for its inscription ID. This is the optional byte sequence after the inscription's field/body separator in its Bitcoin reveal, also called the *undelegated body*. As a consequence of choosing this source, a delegate's content is not substituted. This does not itself exclude an inscription that declares a delegate.
 
 When disabled (`0`), this source-selection rule contributes no claimant-body candidate. It **does not** mean “follow a delegate”; the alternate [Inscription Content](inscription-content-source.md) source has its own binary setting.
 
