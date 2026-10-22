@@ -15,6 +15,30 @@ Trac has more than one relevant historical public artifact. Do **not** treat the
 
 **Evidence convention:** For every extracted rule, record (a) exact code behaviour, (b) earliest *verified* version, (c) subsequent changes with commit links, (d) any earlier history not established, and (e) whether the rule is proposed for the registry, already represented there, or still unresolved. Distinguish a source commit's date from the actual historical date of introduction.
 
+## 2023 Trac public API README audit
+
+**Evidence type:** Public API documentation, **not** the original District writer implementation. [Repository: `BennyTheDev/trac-bitmap-public-endpoint`](https://github.com/BennyTheDev/trac-bitmap-public-endpoint). The repository's published tree contains `README.md` only. Its README history has 14 commits between 20 July and 11 August 2023. Checked the first revisions and the commits adding the relevant District getters.
+
+**Dated document evidence (do not backdate these statements to the launch of Bitmap):**
+- **20 July 2023:** [`a16243a`, first getter documentation](https://github.com/BennyTheDev/trac-bitmap-public-endpoint/commit/a16243aecba6382063081465be85e0d1298b0ee9) adds `inscribedBitmaps`. The previously checked revision [`a62e71e`](https://github.com/BennyTheDev/trac-bitmap-public-endpoint/commit/a62e71e3951d19ad6e7e2e0fa2cc7e0d5e9ff140) does **not** contain that getter. [Contemporaneous README](https://github.com/BennyTheDev/trac-bitmap-public-endpoint/blob/a16243aecba6382063081465be85e0d1298b0ee9/README.md).
+- **22 July 2023:** [`2eebb54`](https://github.com/BennyTheDev/trac-bitmap-public-endpoint/commit/2eebb54f0bc3bca77adf7e692e9bb8e4edf050b) documents the single-height `bitmap` lookup.
+- **2 August 2023:** [`4ebc421`](https://github.com/BennyTheDev/trac-bitmap-public-endpoint/commit/4ebc421103c028f43c799eb911cb29d7260c8d94) documents `bitmapBlock`, which resolves an inscription ID **or number** to a claimed block if that inscription is considered valid.
+- **11 August 2023:** [Latest README revision `b0130f1`](https://github.com/BennyTheDev/trac-bitmap-public-endpoint/commit/b0130f1d66178da7f3e89c6db1a0244be6ea4d3c); used to check the full getter descriptions.
+
+**District-relevant statements and their limits:**
+
+| Document statement | What it establishes | What it does **not** establish |
+| --- | --- | --- |
+| `inscribedBitmaps` is a **post-inscription** lookup. For a queried block height it returns an inscription ID and number if already inscribed, or `null` if the state is unknown. | The public interface distinguished a recorded claim from an *unknown* state by 20 July 2023. | Whether an unrecorded candidate was invalid, unconfirmed, missed by an indexer, or simply not yet inscribed. Do **not** equate `null` with definitive invalidity or future eligibility. |
+| The same getter says **pre-inscription validations** can occur client-side and are outside this tracker's scope. | A stated product/API boundary between querying recorded District claims and assessing hypothetical future claims. | The original writer's exact block-exists, MIME, schema, activation, or candidate eligibility policy. It does **not** establish that the writer allowed future block claims. |
+| The `bitmap` getter returns an inscription ID and number when the District exists and is valid; `bitmapBlock` maps a valid inscription ID or number back to its block. | The API exposes an accepted District mapping and identifies a single returned claim per block through these getter descriptions. | **How** the winner is selected between multiple qualifying inscriptions. In particular, exposing inscription numbers does not prove lowest-inscription-number ordering. |
+| The `ordinal` getter advertises base64 content, MIME type, block and timestamp fields; `latestBlock` reports the last known block. | Information exposed to consumers. | No MIME acceptance rule or timestamp-based priority rule can be inferred from the mere presence of those fields. |
+| Getter rejects a nonnumeric input block value. | Request argument validation at the API boundary. | A District claim-body syntax rule; do not promote API error handling to an inscription-validity rule. |
+
+**Proposed District registry extraction from this document:** **No new binary validity or winner-selection rule is established by the README alone.** Record the post-inscription/unknown-state distinction as evidence about the API, not a candidate ruleset switch. The single-result mapping suggests a useful *question* about winner-selection behaviour, but its precedence is undocumented. The source includes Parcel, ownership and staking getters; those remain **out of scope** for this District audit.
+
+**Outstanding historical checks:** Seek the original 2023 writer code or dated snapshots and concrete competing District inscriptions whose Trac results can be verified. That evidence is required to decide whether the 2023 winner ordering, exact syntax, MIME, delegation, or other District eligibility decisions differ from the 2025–26 Rust port.
+
 ## Rule-by-rule audit
 
 ### TRAC-D01 — Text MIME family exception
