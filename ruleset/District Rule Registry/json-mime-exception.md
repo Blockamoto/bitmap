@@ -1,5 +1,6 @@
 # JSON MIME exception for District claims
 
+**Code ID (provisional):** `json_mime`  
 **Default:** `0`  
 **Introduced:** 19 September 2025
 
