@@ -9,8 +9,7 @@
 |  | [`inscription_body`](inscription-body-source.md) | 1 | Evaluate the claimant inscription's own undelegated envelope body. |
 |  | [`inscription_content`](inscription-content-source.md) | 0 | Evaluate content served for the claimant inscription ID, potentially supplied by its delegate. |
 |  | [`text`](plain-text-inscription.md) | 1 | Require the parsed MIME media type `text/plain`; charset parameters do not themselves decide MIME eligibility. |
-|  | [`mime_charset`](mime-charset-decoding.md) | 1 | Interpret `text/plain` bytes using a declared MIME charset, or US-ASCII if none is declared; decoder repertoire and errors require pinning. |
-|  | [`raw_utf8_strict`](raw-utf8-strict-decoding.md) | 0 | Decode selected bytes as strict UTF-8, ignoring declared charset; canonical ASCII claims then match exact ASCII bytes. |
+|  | [`strict`](raw-utf8-strict-decoding.md) | 1 | Decode selected bytes as strict UTF-8, ignoring any declared charset; canonical ASCII claims then match exact ASCII bytes. |
 |  | [`height`](claimed-block-exists.md) | 1 | Require the claimed block height to be no greater than the inscription's reveal-block height. |
 |  | [`first`](first-eligible-wins.md) | 1 | Recognize the first eligible District claimant under the independently selected precedence comparator. |
 |  | [`precedence_unix_timestamp`](unix-timestamp-ordering.md) | 0 | Rank eligible reveals by the Bitcoin reveal block's `nTime`; ties need explicit handling. |
@@ -29,6 +28,8 @@
 
 **Standard** is the *proposed* Bitmap Standard profile value (`1` enabled; `0` disabled), not a claim that every historical indexer used it. Rules that resolve the fundamental schema, content source, text interpretation, height and winner questions appear first; additional historical exceptions follow. Related decisions remain adjacent. No rule positions or profile hashes have been assigned.
 
-The two text-decoding entries are **alternative interpretations**, not cumulative requirements: [MIME charset-aware text](mime-charset-decoding.md) versus [strict raw UTF-8](raw-utf8-strict-decoding.md). For a canonical whole-string ASCII District claim, strict UTF-8 accepts exactly the ASCII byte spelling; a declared UTF-16 claim distinguishes the modes. An executable profile must pin its decoder choice and reject or define ambiguous combinations. `text` only checks MIME eligibility.
+Text decoding currently has **one active rule**: [`strict`](raw-utf8-strict-decoding.md) = **`1`**. It decodes the selected inscription bytes as strict UTF-8, rejects malformed UTF-8, and passes the unchanged decoded string to the District schema. Because the canonical whole-string District grammar is ASCII-only, this accepts exactly the canonical ASCII byte sequence. A declared MIME `charset` does **not** change decoding in this Standard profile. The separate `text` rule still governs `text/plain` MIME eligibility.
+
+The previously considered charset-aware (`mime_charset`) interpretation is **deferred, not an active rule or fallback**. Its research rationale is retained in [encoding comparisons](TEXT-ENCODING-COMPARISON.md) and the [earlier draft commit](https://github.com/Blockamoto/bitmap/commit/8a882873b85c451a605ea568a88ab7faeaca7d23). With no other decoder enabled or defined, `strict=0` leaves an incomplete, non-executable profile. No implicit compatible mode is available.
 
 Historic evidence, dates, dependencies and unresolved decisions are preserved on the linked rule pages and in [encoding comparisons](TEXT-ENCODING-COMPARISON.md), [code-ID mapping and production gates](CODE-IDS-AND-REVIEW-GATES.md), and [source/delegation distinctions](DISTRICT-CONTENT-OPEN-QUESTION.md). The retracted hash-prefixed tutorial typo is **not** a registry rule. No Parcel definitions are included.

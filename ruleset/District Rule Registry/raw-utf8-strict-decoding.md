@@ -1,16 +1,16 @@
-# Raw strict UTF-8 decoding for District claims
+# Strict UTF-8 decoding for District claims
 
-**Code ID (provisional):** `raw_utf8_strict`  
-**Standard:** `0` (off; independent decoding alternative)  
+**Code ID (provisional):** `strict`  
+**Standard:** `1` (on; sole active District text decoder)  
 **Earliest verified public code:** 5 December 2023 (Best in Slot's OPI Bitmap module)  
-**Status:** Historical comparison option; its `1` behaviour is evidenced in OPI, not attributed to the 2023 Trac service.
+**Status:** Proposed current Bitmap Standard behaviour, corroborated by the public OPI decoder but not attributed to the unseen original 2023 Trac writer or every marketplace.
 
 ## Binary question
 
-**Must selected District claim bytes be interpreted using strict UTF-8, regardless of any declared charset?**
+**Must selected District claim bytes be interpreted using strict UTF-8, regardless of any declared charset?** This is the current Standard's only decoding mode.
 
 - **`1` (on):** Obtain the raw bytes from the **selected inscription source**, decode those bytes as **UTF-8 with strict error handling**, and pass the decoded string to whichever District claim schema is enabled. **Invalid UTF-8 is rejected**, without replacement characters, charset fallback, Unicode normalization, trimming, decompressing, HTML extraction or JSON-object interpretation.
-- **`0` (off):** Do **not** impose this raw UTF-8 decoder override. The profile must select its independent decoder, for example the proposed Standard's [`mime_charset=1`](mime-charset-decoding.md) interpretation of MIME-declared charsets. `0` is not permission to skip decoding or to assume lossy UTF-8.
+- **`0` (off):** This rule supplies **no decoder**. There is no active compatible/charset-aware fallback. Until an independent decoder is explicitly added and fully specified, `strict=0` is an incomplete, non-executable District profile. `0` does not mean lossy UTF-8 or skipped decoding.
 
 **Raw bytes are the input; the string schema is checked *after* strict decoding.** This is an encoding rule, not a prohibition on MIME labels. Thus `text/plain;charset=utf-8` may satisfy the separate text MIME rule, but a `charset=utf-16` label is **not honored by this decoder**. MIME eligibility remains independently configured.
 
@@ -20,7 +20,7 @@ For an **entire exact canonical District claim** matching `(?:0|[1-9][0-9]*)\.bi
 
 A UTF-8 BOM decoded as U+FEFF, leading/trailing whitespace, final newline, zero-width characters and invalid UTF-8 must not be removed to manufacture a canonical string. Charset metadata is ignored *for decoding* in this mode, but independently configured MIME and encoding-tag checks still apply.
 
-**This mode is not the MIME US-ASCII default.** The [MIME charset mode](mime-charset-decoding.md) respects an explicitly declared `charset=utf-16` (subject to pinned decoding details), whereas raw strict UTF-8 does not; the two modes coincide for ordinary canonical ASCII bytes. [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629.html#section-3) documents the UTF-8/US-ASCII byte identity.
+**Strict UTF-8 is not MIME's US-ASCII fallback.** It ignores any declared `charset` for decoding. For example, a genuine UTF-16 body declared as `text/plain; charset=utf-16` may pass the *separate* MIME type rule, but its UTF-16 bytes do **not** pass `strict=1` for the canonical District grammar. [RFC 3629](https://www.rfc-editor.org/rfc/rfc3629.html#section-3) documents the identical UTF-8/US-ASCII encoding of ASCII characters. The previously discussed charset-aware interpretation is deferred; see [encoding research](TEXT-ENCODING-COMPARISON.md).
 
 ## First public implementation evidence
 
@@ -39,5 +39,5 @@ A UTF-8 BOM decoded as U+FEFF, leading/trailing whitespace, final newline, zero-
 - [Plain-text MIME eligibility](plain-text-inscription.md) and any [MIME exceptions](json-mime-exception.md) remain separate. Setting this decoder to `1` never silently disables `text/plain` filtering.
 - [Brotli eligibility](brotli-decompression-eligibility.md) controls whether bytes may be transformed *before* decoding. [Content-Encoding Tag Exclusion](content-encoding-tag-exclusion.md) tests mere field presence; neither is implied by strict UTF-8.
 - A canonical District claim comprises only ASCII digits plus `.bitmap`. UTF-8 replacement characters created by a lossy decoder cannot by themselves form those exact valid bytes; therefore strict versus lossy handling of malformed UTF-8 alone may yield **no different accepted Districts** for that schema. A correctly declared UTF-16 body can differ from both UTF-8 paths when an independent charset-aware decoder is available.
-- The proposed `mime_charset` mode is an alternative selector, not a simultaneous check. Both-on and both-off combinations are currently undefined and require explicit profile validation before indexing. This new `0` bit alone does not fully specify the baseline decoder, label registry, BOM treatment, or absent-charset fallback. Those must be pinned independently before execution.
+- **`strict=1` is the only active decoding selection in the current District draft.** The earlier `mime_charset` proposal is not a selectable rule, and charset guessing, BOM stripping, Unicode normalization or fallback decoding are not permitted. No second decoder-combination constraint is needed. A future alternative would require its own explicitly specified rule, versioned decoder support and comparison fixtures; do not silently add it.
 - Live OCI/Boppleton encoding semantics have not been independently source-verified in this audit. See [Encoding evidence comparison](TEXT-ENCODING-COMPARISON.md). Districts only.
