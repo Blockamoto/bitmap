@@ -8,7 +8,7 @@
 
 ## Definition
 
-When enabled (`1`), evaluate the candidate's District claim schema against **inscription content as served for the claimant inscription ID**. In Ord terminology this is the effective body from the ordinary `/content/<id>` endpoint or its locally reproduced semantics:
+When enabled (`1`), evaluate the District claim schema against **content served for the claimant inscription ID**, rather than reading its own envelope body directly. As a consequence of choosing this source, the content may be supplied by a delegate; delegation is not a requirement of this rule. In Ord terminology this is the effective body from the ordinary `/content/<id>` endpoint or its locally reproduced semantics:
 
 - If claimant A has no delegate, served content uses A's own body.
 - If A declares delegate B, served content can instead use **B's own body**, rather than A's, as Ord's current handler resolves one level of delegation.
