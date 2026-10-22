@@ -1,5 +1,6 @@
 # Plain-text inscription (`text/plain`)
 
+**Code ID (provisional):** `text`  
 **Default:** `1`  
 **Introduced:** 3 June 2023
 
