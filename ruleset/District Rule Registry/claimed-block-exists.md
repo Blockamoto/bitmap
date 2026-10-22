@@ -1,5 +1,6 @@
 # Claimed block exists
 
+**Code ID (provisional):** `height`  
 **Default:** `1`  
 **Introduced:** 16 June 2023
 
