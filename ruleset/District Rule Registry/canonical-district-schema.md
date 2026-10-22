@@ -1,5 +1,6 @@
 # Canonical District schema
 
+**Code ID (provisional):** `regex`  
 **Default:** `1`  
 **Introduced:** 1 June 2023
 
