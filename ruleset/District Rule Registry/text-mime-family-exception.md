@@ -18,6 +18,7 @@ This is a MIME eligibility alternative, not a relaxation of the District claim's
 ## Clarifications
 
 - Independent from the default-on [plain-text inscription](plain-text-inscription.md) requirement: this exception can be switched on to permit `text/html`, `text/markdown`, etc., where the body itself remains an exact District string.
-- The historical implementation matches the literal prefix `text/`, even if the remaining subtype is empty or malformed; separating intentionally broad MIME-family policy from permissive string-prefix parsing is a further audit question.
+- The historical implementation matches the literal prefix `text/`, even if the remaining subtype is empty or malformed; literal string-prefix matching is now explicitly preserved as a [separate default-off compatibility option](mime-string-prefix-compatibility.md).
+- The accepted MIME **label** and the *source of the bytes tested as District content* are independent. See the [open District content question](DISTRICT-CONTENT-OPEN-QUESTION.md).
 - Do not mistake a MIME label of `text/html` for a body containing HTML: an HTML fragment does not pass the canonical District content check.
 - This page concerns Districts only; Parcel rules are out of scope.
