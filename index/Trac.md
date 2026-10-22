@@ -106,13 +106,13 @@ Trac has more than one relevant historical public artifact. Do **not** treat the
 
 **Registry status:** Candidate already documented as [Text MIME family exception](../ruleset/District%20Rule%20Registry/text-mime-family-exception.md); **no registry edits or numbering made by this page**.
 
-**Open history checks:** Find independently dated pre-September-2025 Trac writer, archived source, deployment evidence, or test fixtures that establish whether `text/*` was accepted earlier. In their absence, keep the historical introduction **unknown**. Also isolate malformed MIME-prefix behaviour as a possible separate compatibility switch if indexer outcomes demonstrably differ.
+**Open history checks:** Find independently dated pre-September-2025 Trac writer, archived source, deployment evidence, or test fixtures that establish whether `text/*` was accepted earlier. In their absence, keep the historical introduction **unknown**. Literal MIME-prefix behaviour is now registered as a [separate provisional compatibility option](../ruleset/District%20Rule%20Registry/mime-string-prefix-compatibility.md); whether it changes actual historical winners still requires tests.
 
 ### TRAC-D02 — JSON MIME exception
 
 **Implementation behaviour:**
 - The District intake gate accepts a content-type **string beginning with** `application/json`, even though the candidate's content must still pass the exact canonical `<height>.bitmap` parser. A body such as `840000.bitmap` with a JSON MIME label can pass this gate; a JSON object such as `{"height":840000}` does **not** pass the District body parser.
-- This is a literal string-prefix test, **not** a parsed MIME type equality check. Whether malformed labels that happen to start with `application/json` deserve a separate compatibility option remains open.
+- This is a literal string-prefix test, **not** a parsed MIME type equality check. Literal `application/json` prefix matching is recorded as a [separate provisional compatibility option](../ruleset/District%20Rule%20Registry/mime-string-prefix-compatibility.md); whether any real District outcome depends on it remains open.
 - The initial Rust snapshot applies the MIME guard to the original payload. From the 25 September 2025 delegation change, it applies the guard to the *effective* payload after single-level delegate resolution. Delegation acceptance and resolution will be audited as separate rules.
 
 **Dated evidence:**
@@ -124,7 +124,7 @@ Trac has more than one relevant historical public artifact. Do **not** treat the
 
 **Registry status:** Already separately documented in [JSON MIME exception](../ruleset/District%20Rule%20Registry/json-mime-exception.md). **No registry edits or numbering made by this page.**
 
-**Open checks:** Seek 2023 writer evidence for historical introduction. Evaluate string-prefix anomalies separately from the intended `application/json` alternative; do not silently fold MIME-prefix quirks into the registry rule.
+**Open checks:** Seek 2023 writer evidence for historical introduction. Test the independently registered [MIME prefix-compatibility option](../ruleset/District%20Rule%20Registry/mime-string-prefix-compatibility.md); do not fold MIME-prefix quirks into the JSON MIME-label exception.
 
 ### TRAC-D03 — Nested delegate exclusion
 
@@ -147,7 +147,7 @@ Trac has more than one relevant historical public artifact. Do **not** treat the
 - **25 September 2025, verified scope change:** [commit `acf6b7b`](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea); [revised handler](https://github.com/Trac-Systems/ord-tap/blob/acf6b7bbc7862e50999edd42c02ae170dfe23eea/src/index/updater/inscription_updater.rs#L1023-L1064) checks for nested delegation **before** the TAP-start branch, and resolves the first delegate's payload.
 - **2023 history:** The original Trac District writer's delegation and nested-delegation policy remains **unverified** from the available public API README; do not backdate the Rust rule to 2023.
 
-**Extracted candidate District rule:** *Nested Delegate Exclusion*, binary **on/off**: when on, an inscription naming B as its delegate is ineligible if B itself names another delegate. This must not be conflated with (a) prohibiting all delegates or (b) resolving a one-level delegate's body. **Default for the registry is undecided; no registry change in this audit.**
+**Extracted candidate District rule:** *Nested Delegate Exclusion*, binary **on/off**: when on, an inscription naming B as its delegate is ineligible if B itself names another delegate. This must not be conflated with (a) prohibiting all delegates or (b) resolving a one-level delegate's body. **Registry candidate default is provisionally `0` (off), not a settled Standard-content decision.** See [the unresolved District content question](../ruleset/District%20Rule%20Registry/DISTRICT-CONTENT-OPEN-QUESTION.md).
 
 **Open checks:** Compare historical Trac results around the relevant block ranges, clarify missing/deleted delegate lookup behaviour, and seek pre-September-2025 original writer evidence. The September 2025 commit date describes the *published Rust implementation*, not necessarily the historical introduction of a rule in Trac production.
 
