@@ -1,6 +1,6 @@
 # Single-level delegate content resolution for District claims
 
-**Default:** `0`  
+**Default:** `0` (provisional pending the District content-definition decision)  
 **Introduced:** 25 September 2025
 
 ## Definition
@@ -18,4 +18,6 @@ When enabled, a District inscription may qualify using the **content body and co
 - [Nested delegate exclusion](nested-delegate-exclusion.md) is a distinct, separately switchable policy. The audited Trac-derived code rejects a known second delegate hop rather than chasing the chain.
 - When the immediate delegate cannot be fetched, the audited code retains a clone of the original payload, and it does not automatically reject solely for the unresolved reference; that deserves its own edge-case comparison.
 - This rule does not add a second District content schema; it selects which inscription's content is tested.
+- The **meaning of “content” in the canonical District schema is not decided**. Keep this as a Trac-derived historical compatibility option until [the District content decision](DISTRICT-CONTENT-OPEN-QUESTION.md) is settled. Do not assume that default `0` constitutes final agreement to a particular global content definition.
+- Accepting inscriptions carrying a delegate tag, selecting own versus effective bytes, and excluding nested delegates are separate decisions.
 - Districts only, not Parcel provenance.
