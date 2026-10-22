@@ -1,5 +1,6 @@
 # Brotli decompression eligibility for District claims
 
+**Code ID (provisional):** `brotli`  
 **Default:** `0` (off; historical comparison option)  
 **Earliest verified published working rule:** 15 October 2026 (`Blockamoto/bitmap-old`)  
 **Original 2023 introduction and indexer enforcement:** Unverified.
