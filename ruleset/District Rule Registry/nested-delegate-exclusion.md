@@ -1,7 +1,7 @@
 # Nested delegate exclusion for District claims
 
 **Code ID (provisional):** `nested_delegate_exclusion`  
-**Default:** `0`  
+**Standard:** `0`  
 **Introduced:** 19 September 2025
 
 ## Definition

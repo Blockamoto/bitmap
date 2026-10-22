@@ -1,7 +1,7 @@
 # Inscription Content: served District claim source
 
 **Code ID (provisional):** `inscription_content`  
-**Default:** `0` (provisional current-profile value)  
+**Standard:** `0` (provisional current-profile value)  
 **Earliest verified related implementation:** 25 September 2025 (`ord-tap` one-hop effective-payload change)  
 **Explicit binary registry framing:** 22 October 2026  
 **Status:** Independent historical alternative for **where** District claim bytes come from, not a delegate eligibility check.

@@ -1,7 +1,7 @@
 # Negative inscription number exclusion for District claims
 
 **Code ID (provisional):** `negative_inscription_number_exclusion`  
-**Default:** `0`  
+**Standard:** `0`  
 **Introduced:** 19 May 2026
 
 ## Definition

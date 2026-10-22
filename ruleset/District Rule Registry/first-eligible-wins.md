@@ -1,7 +1,7 @@
 # First eligible claimant wins
 
 **Code ID (provisional):** `first`  
-**Default:** `1` (current proposed profile)  
+**Standard:** `1` (current proposed profile)  
 **Earliest relevant published wording:** 14 July 2023, “first is first” among valid claims, with *lowest inscription number* as the then-specified comparator.  
 **Independent binary separation:** Documented in the 21 October 2026 [bitmap-old District atomicity reference](https://github.com/Blockamoto/bitmap-old/blob/main/DISTRICT-RULESET.md).  
 **Status:** District-only draft decision; not a frozen bit position.

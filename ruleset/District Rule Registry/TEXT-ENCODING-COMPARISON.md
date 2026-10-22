@@ -20,9 +20,21 @@
 | **Live OCI (Boppleton)** | Rules reported during prior Live OCI discussions (16–20 October 2026) are **not independently source-verified here**; the Trac audit should not be cited as evidence of Boppleton’s code. | **Reported**: exact UTF-8 body-content matching; any `contentEncoding` declaration excluded; compressed content not accepted. | The exact source code, treatment of malformed UTF-8 versus raw-byte equality, whether MIME `charset` is interpreted, deployment/activation date, and whether the stated public rules are fully reflected in the implementation. Do **not** assert these are verified from a source artifact. |
 | **Bitmap working Standard (design, not an indexer)** | [15 October 2026 working District draft](https://github.com/Blockamoto/bitmap-old/blob/1751e0d37073ab920cbd8b5548c61b74c37716d1/DISTRICT-RULESET.md) and [21 October atomic-options revision](https://github.com/Blockamoto/bitmap-old/blob/63e77aa6f5cd95248e3abad55e168fa2215e0e32/COMPARISON-OPTIONS.md) | Intended baseline named `decoder_mode=declared_charset_strict`, independent `text=1`, `body_transform=none`, `encoding_tag_exclusion=0`; alternative `raw_utf8_strict` and Brotli route separately described. | Charset-label mapping, BOM and absent/malformed-charset fallback, exact transform pipeline, shared test fixtures and whether this conceptual configuration reproduces any external historical indexer. |
 
-## Registry entries and defaults
+## Explicit 2026 interpretation fork
 
-- [Raw Strict UTF-8 Decoding](raw-utf8-strict-decoding.md): `0`. Enabling replaces the selected decoder with strict UTF-8 regardless of declared charset, **without bypassing MIME**.
+Two distinct **proposed binary registry choices** now record the ambiguity left by the early phrase "text inscription":
+
+1. **[`mime_charset`](mime-charset-decoding.md), Standard `1`:** for `text/plain`, interpret source bytes according to an explicitly declared MIME `charset`; absent a `charset`, RFC 6657 §4 retains the **US-ASCII** MIME default. This is a standards-grounded *working interpretation*, not a recovered 2023 Bitmap decoder mandate. The exact supported charset repertoire, label aliases, malformed parameters, BOM policy and error behaviour must be pinned to reproduce results.
+2. **[`raw_utf8_strict`](raw-utf8-strict-decoding.md), Standard `0`:** decode selected bytes using **strict UTF-8** regardless of a declared charset. For the canonical exact ASCII District string, this recognises precisely the same bytes as a direct ASCII-byte full-match, including rejection of extra BOM bytes, newlines or other characters. That equivalence does **not** apply to all possible schemas.
+
+These are **alternatives**, not two compulsory filters. Neither bit silently changes `text`, body-versus-served source, Brotli transform, or encoding-tag exclusion. Both-on and both-off decoder combinations require a declared policy and are not executable by default. Critically, **MIME's US-ASCII fallback is not equivalent to ignoring a declared UTF-16 charset**.
+
+Standards: [RFC 2046 §4.1.2](https://www.rfc-editor.org/rfc/rfc2046.html#section-4.1.2), [RFC 6657 §4](https://www.rfc-editor.org/rfc/rfc6657.html#section-4), [RFC 3629 §3](https://www.rfc-editor.org/rfc/rfc3629.html#section-3), [IANA character sets](https://www.iana.org/assignments/character-sets). The [WHATWG Encoding Standard](https://encoding.spec.whatwg.org/) is **not** interchangeable with the complete IANA registry and does not make every decoder available in every environment.
+
+## Registry entries and proposed Standard values
+
+- [MIME Charset Decoding](mime-charset-decoding.md): `1` (proposed Standard). Honor declared `text/plain` charset or US-ASCII absent one, with implementation details still to be frozen.
+- [Raw Strict UTF-8 Decoding](raw-utf8-strict-decoding.md): `0`. Enabling selects strict UTF-8 regardless of declared charset, **without bypassing MIME**.
 - [Brotli Decompression Eligibility](brotli-decompression-eligibility.md): `0`. Enabling permits a separately specified decompression route; it is not an encoding-tag veto.
 - [Content-Encoding Tag Exclusion](content-encoding-tag-exclusion.md): `0`. Enabling rejects candidates solely for the presence of an Ord tag 9 field, independent of byte transformation.
 - The previously registered [Text MIME rule](plain-text-inscription.md) is `1`; this concerns type eligibility only, **not** the decoder or transform.

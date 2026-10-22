@@ -1,7 +1,7 @@
 # Text MIME family exception for District claims
 
 **Code ID (provisional):** `text_mime_family`  
-**Default:** `0`  
+**Standard:** `0`  
 **Introduced:** 19 September 2025
 
 ## Definition

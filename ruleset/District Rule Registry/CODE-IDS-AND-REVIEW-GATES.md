@@ -4,7 +4,7 @@
 
 ## Naming convention
 
-Short lowercase `snake_case` names identify **one current binary registry question** and are stable *within this draft review*. The [District registry](README.md) is the source of the currently included set. Code IDs are distinct from display titles, former compound aliases, dated evidence IDs, and future binary positions.
+Short lowercase `snake_case` names identify **one current binary registry question** and are stable *within this draft review*. The [District registry](README.md) now presents one continuous table with the columns **Index**, **ID**, **Standard** and **Definition**. The code ID links to its detail page; no separate human-readable name or evidence-date column appears in the overview. The registry remains the source of the currently included set. Code IDs are distinct from display titles, former compound aliases, dated evidence IDs, and future binary positions.
 
 Earlier work had at least two naming systems:
 
@@ -21,7 +21,8 @@ Earlier work had at least two naming systems:
 | `brotli` | `brotli` | Same default-off *additional Brotli-decompression eligibility*, not an encoding-tag veto. |
 | `delegate_exclusion` | `delegate_exclusion` | Same default-off exclusion based on a declared Ord delegate tag. |
 | `encoding_tag_exclusion` | `encoding_tag_exclusion` | Same default-off exclusion for Ord content-encoding tag 9 presence. |
-| `decoder_mode=raw_utf8_strict` | `raw_utf8_strict` | Same strict UTF-8 decoder alternative; the new binary is independent of MIME filtering and source selection. |
+| `decoder_mode=raw_utf8_strict` | `raw_utf8_strict` | Same strict UTF-8 decoder alternative; independent of MIME filtering and source selection. |
+| `decoder_mode=declared_charset_strict` | `mime_charset` | Explicit working-Standard candidate: honor declared `text/plain` charset or the RFC 6657 US-ASCII default. This is a **2026 clarification**, not proof of 2023 enforcement or complete decoder support. |
 
 ## Related historical names that are **not exact aliases**
 
@@ -37,7 +38,7 @@ Earlier work had at least two naming systems:
 
 ## Current identifier inventory
 
-The code IDs appearing on [README](README.md) are each unique within the active draft. The historical `first` ID is retained as its own standalone binary decision, separate from any precedence comparator. All other newer IDs name only their corresponding written questions: `schema_bmp101`, `inscription_content`, `delegate_content_resolution`, `text_mime_family`, `json_mime`, `mime_prefix_compatibility`, `strict_height`, `nested_delegate_exclusion`, `negative_inscription_number_exclusion`, `precedence_unix_timestamp`, `precedence_inscription_number`, and `precedence_bitcoin_reveal`. None is asserted to have existed as such in 2023.
+The 22 code IDs appearing on [README](README.md) are each unique within the active draft, including the new `mime_charset` interpretation. The historical `first` ID is retained as its own standalone binary decision, separate from any precedence comparator. All other newer IDs name only their corresponding written questions: `schema_bmp101`, `inscription_content`, `delegate_content_resolution`, `text_mime_family`, `json_mime`, `mime_prefix_compatibility`, `strict_height`, `nested_delegate_exclusion`, `negative_inscription_number_exclusion`, `precedence_unix_timestamp`, `precedence_inscription_number`, and `precedence_bitcoin_reveal`. None is asserted to have existed as such in 2023.
 
 ## Production review gates, still open
 
@@ -45,7 +46,7 @@ The code IDs appearing on [README](README.md) are each unique within the active 
 2. **Multiple claim schemas:** decide whether `schema_bmp101=1` together with `regex=1` permits either recognised grammar, is an invalid profile, or has another explicit combination policy. The baseline enables only `regex=1`. Do not silently apply an AND that makes the prototype impossible, or claim an unapproved OR.
 3. **Claim-source combinations:** define or reject `inscription_body=0; inscription_content=0` and `inscription_body=1; inscription_content=1`. Do not invent OR, AND, fallback, or precedence. Separately reconcile the overlap between `inscription_content` and the Trac-specific `delegate_content_resolution`.
 4. **Multiple precedence settings:** `precedence_unix_timestamp`, `precedence_inscription_number`, and `precedence_bitcoin_reveal` are comparator choices currently shown as independent historical binaries. Their **combination and precedence constraints** remain to be settled. Unix timestamp ties and within-transaction reveal ties require explicit treatment. The independent [`first`](first-eligible-wins.md) selection predicate now has its own active registry row; profile semantics when it is off still require an explicit alternative.
-5. **Data source, MIME, decoding:** pin exact envelope parser, MIME case/parameter handling, charset-label mapping, BOM and missing/malformed-charset behaviour; do not use `raw_utf8_strict` to imply an unstated MIME bypass.
+5. **Data source, MIME, decoding:** choose an explicit interpretation between [MIME charset-aware text](mime-charset-decoding.md) (`mime_charset=1` in the working Standard) and [strict raw UTF-8](raw-utf8-strict-decoding.md) (`raw_utf8_strict=0`). Both on or both off have **no approved executable semantics**. The `text` MIME filter is separate. Pin exact envelope parser, MIME case/parameter handling, charset-label repertoire and algorithms, BOM/error handling and non-`text/plain` MIME fallback. In `text/plain`, RFC 6657 retains the US-ASCII default only **when no charset is declared**. Do not use `raw_utf8_strict` to imply a MIME bypass, and do not assume every IANA-registered charset is supported by any given program.
 6. **Transform and metadata:** an enabled `brotli` eligibility route needs trigger, decompression limits and failure policy. `encoding_tag_exclusion` is a separate tag-presence veto. No inference from an unverified Live OCI implementation.
 7. **Evidence and reproducibility:** fixture inputs must include actual witness bytes, source policy, chain reveal coordinates, collisions, delegated content, encoding edge cases, effective MIME fields and declared profile. Verify version-specific indexer claims rather than declaring historical consensus from one modern source.
 8. **No premature allocation:** blank `Index` values, provisional code names and defaults, no canonical serialized profile, no deployed hashes or final production validator.

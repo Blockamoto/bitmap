@@ -1,7 +1,7 @@
 # Plain-text inscription (`text/plain`)
 
 **Code ID (provisional):** `text`  
-**Default:** `1`  
+**Standard:** `1`  
 **Introduced:** 3 June 2023
 
 ## Definition
@@ -21,3 +21,5 @@ Require MIME media type `text/plain`, allowing parameters such as `charset=utf-8
 
 - The `text/plain` requirement is **inferred from the documented text-inscription workflow**; the early GitBook does not explicitly state that other MIME types are invalid.
 - MIME parameters such as `charset=utf-8` do not change the `text/plain` media type.
+
+- MIME eligibility is separate from the decoder: [`mime_charset`](mime-charset-decoding.md) respects a declared charset for `text/plain` and uses its MIME US-ASCII fallback when absent; [`raw_utf8_strict`](raw-utf8-strict-decoding.md) ignores the declared charset for decoding. Neither decoder mode turns this MIME rule on or off.

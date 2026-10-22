@@ -1,7 +1,7 @@
 # Strictly earlier reveal-block height for District claims
 
 **Code ID (provisional):** `strict_height`  
-**Default:** `0` (provisional historical alternative)  
+**Standard:** `0` (provisional historical alternative)  
 **Earliest verified published wording:** 18 July 2023  
 **Evidence class:** Dated **authored ruleset document**, not verified Trac server behaviour.
 

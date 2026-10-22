@@ -1,7 +1,7 @@
 # Delegate Tag Exclusion for District claims
 
 **Code ID (provisional):** `delegate_exclusion`  
-**Default:** `0` (off; provisional candidate)  
+**Standard:** `0` (off; provisional candidate)  
 **Earliest verified published working rule:** 16 October 2026 (`Blockamoto/bitmap-old` District comparison)  
 **Status:** Tentative independent binary exclusion; later indexer comparisons remain to be audited.
 

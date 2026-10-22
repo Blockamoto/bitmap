@@ -1,7 +1,7 @@
 # Bitcoin transaction ordering
 
 **Code ID (provisional):** `precedence_bitcoin_reveal`  
-**Default:** `1`  
+**Standard:** `1`  
 **Introduced:** 22 September 2023 (earliest verified public wording)
 
 ## Definition

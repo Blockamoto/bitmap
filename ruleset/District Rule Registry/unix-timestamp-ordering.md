@@ -1,7 +1,7 @@
 # Unix timestamp ordering
 
 **Code ID (provisional):** `precedence_unix_timestamp`  
-**Default:** `0`  
+**Standard:** `0`  
 **Introduced:** —
 
 ## Definition

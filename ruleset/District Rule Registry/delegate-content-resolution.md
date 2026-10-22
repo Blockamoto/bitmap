@@ -1,7 +1,7 @@
 # Single-level delegate content resolution for District claims
 
 **Code ID (provisional):** `delegate_content_resolution`  
-**Default:** `0` (provisional pending the District content-definition decision)  
+**Standard:** `0` (provisional pending the District content-definition decision)  
 **Introduced:** 25 September 2025
 
 ## Definition

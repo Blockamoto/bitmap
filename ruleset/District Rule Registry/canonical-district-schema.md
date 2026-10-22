@@ -1,7 +1,7 @@
 # Canonical District schema
 
 **Code ID (provisional):** `regex`  
-**Default:** `1`  
+**Standard:** `1`  
 **Introduced:** 1 June 2023
 
 ## Definition
@@ -22,3 +22,5 @@ Accept an exact `<height>.bitmap` claim from the **selected inscription source**
 - The historically used “district claim command” wording did not explicitly define the data source. The registry now records [Inscription Body](inscription-body-source.md) and [Inscription Content](inscription-content-source.md) as **separate, independently switchable binary sources**, without retroactively attributing either definition to 2023.
 - [Delegate Tag Exclusion](delegate-tag-exclusion.md) and [Nested Delegate Exclusion](nested-delegate-exclusion.md) are separate eligibility decisions. See [open combination and provenance questions](DISTRICT-CONTENT-OPEN-QUESTION.md).
 - The first published syntax and the Trac-derived content-resolution alternatives are kept distinct. Further evidence and rule lineage remain to be audited.
+
+- The canonical whole-string claim is ASCII-only. Under [strict raw UTF-8](raw-utf8-strict-decoding.md), recognizing it is equivalent to matching the exact ASCII bytes of `<height>.bitmap`; under [MIME charset-aware decoding](mime-charset-decoding.md), correctly declared encodings such as UTF-16 may produce the same **decoded characters from different bytes**. The original 2023 text did not explicitly settle that fork.

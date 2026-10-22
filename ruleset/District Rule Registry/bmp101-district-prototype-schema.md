@@ -1,7 +1,7 @@
 # BMP101 District prototype schema
 
 **Code ID (provisional):** `schema_bmp101`  
-**Default:** `0`  
+**Standard:** `0`  
 **Introduced:** 24 May 2023
 
 ## Definition

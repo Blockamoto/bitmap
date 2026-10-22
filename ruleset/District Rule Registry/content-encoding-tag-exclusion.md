@@ -1,7 +1,7 @@
 # Content-Encoding Tag Exclusion for District claims
 
 **Code ID (provisional):** `encoding_tag_exclusion`  
-**Default:** `0` (off; independent metadata veto)  
+**Standard:** `0` (off; independent metadata veto)  
 **Earliest verified explicit published formulation:** 21 October 2026 (`Blockamoto/bitmap-old` atomic District specification)  
 **Original 2023 introduction and individual indexer enforcement:** Unverified.
 

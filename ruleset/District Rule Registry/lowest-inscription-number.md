@@ -1,7 +1,7 @@
 # Lowest inscription number
 
 **Code ID (provisional):** `precedence_inscription_number`  
-**Default:** `0`  
+**Standard:** `0`  
 **Introduced:** 14 July 2023 (earliest verified published source; also documented 24 and 26–27 July)
 
 ## Definition
