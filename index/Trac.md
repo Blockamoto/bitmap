@@ -58,6 +58,24 @@ Trac has more than one relevant historical public artifact. Do **not** treat the
 
 **Open history checks:** Find independently dated pre-September-2025 Trac writer, archived source, deployment evidence, or test fixtures that establish whether `text/*` was accepted earlier. In their absence, keep the historical introduction **unknown**. Also isolate malformed MIME-prefix behaviour as a possible separate compatibility switch if indexer outcomes demonstrably differ.
 
+### TRAC-D02 — JSON MIME exception
+
+**Implementation behaviour:**
+- The District intake gate accepts a content-type **string beginning with** `application/json`, even though the candidate's content must still pass the exact canonical `<height>.bitmap` parser. A body such as `840000.bitmap` with a JSON MIME label can pass this gate; a JSON object such as `{"height":840000}` does **not** pass the District body parser.
+- This is a literal string-prefix test, **not** a parsed MIME type equality check. Whether malformed labels that happen to start with `application/json` deserve a separate compatibility option remains open.
+- The initial Rust snapshot applies the MIME guard to the original payload. From the 25 September 2025 delegation change, it applies the guard to the *effective* payload after single-level delegate resolution. Delegation acceptance and resolution will be audited as separate rules.
+
+**Dated evidence:**
+- **19 September 2025, earliest verified public code:** [initial Rust commit `3f3f851`](https://github.com/Trac-Systems/ord-tap/commit/3f3f851a00301b780e333fc9d8a3c3eaf29920e3) and [intake gate source](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater.rs#L984-L989) accept `ct.starts_with("application/json")` alongside `text/`. The [District body parser at the same commit](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater/tap/ops/bitmap.rs#L13-L23) requires canonical `<height>.bitmap` text.
+- **25 September 2025, verified retention:** [commit `acf6b7b`](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea) preserves the `application/json` string prefix while narrowing the text branch to `text/plain` and adding single-level effective-payload resolution. [Updated intake source](https://github.com/Trac-Systems/ord-tap/blob/acf6b7bbc7862e50999edd42c02ae170dfe23eea/src/index/updater/inscription_updater.rs).
+- **Before 19 September 2025:** The original 2023 Trac writer's JSON MIME policy is not established by the public API README or by the later Rust implementation. This is an **earliest verified public snapshot**, not a demonstrated introduction date.
+
+**Extracted candidate registry rule:** *JSON MIME Exception*, proposed default `0` (off). When enabled, allow the declared `application/json` content-type label for an otherwise canonical District claim; do **not** interpret arbitrary JSON-formatted bodies as claims.
+
+**Registry status:** Already separately documented in [JSON MIME exception](../ruleset/District%20Rule%20Registry/json-mime-exception.md). **No registry edits or numbering made by this page.**
+
+**Open checks:** Seek 2023 writer evidence for historical introduction. Evaluate string-prefix anomalies separately from the intended `application/json` alternative; do not silently fold MIME-prefix quirks into the registry rule.
+
 ## Next checkpoint
 
 Continue with the next **District** rule from the Trac code, verify its commit history, and append findings here. Do not move to another indexer or to Parcel rules until Trac District is complete.
