@@ -12,6 +12,8 @@
 
 A fourth pre-existing rule, **[Nested Delegate Exclusion](nested-delegate-exclusion.md)**, rejects the narrower A → B → C scenario when A's immediate delegate B itself declares a delegate. It is **not** the same as all-delegates exclusion.
 
+A separate default-off **[`fallback`](fallback.md)** comparison rule records the later Trac-derived outcome **only when a declared delegate lookup fails while `content=1`**: in that case it substitutes the claimant's own body and content type. It does not change ordinary successful Ord content resolution and is not another general claim-source selector.
+
 **ID clarification (22 October 2026):** The short names are now `body` (claimant's own bytes) and `content` (served bytes). The historical `content=1` own-body rule is not equivalent to today's `content` ID. Do not translate old and new profiles merely by matching the name.
 
 No one of these binaries is defined as the negation of another. The first two concern **source selection** only, the third and fourth concern **eligibility vetoes**.
@@ -25,7 +27,7 @@ Suppose A's own body is `123.bitmap`, but it delegates to B whose body is `234.b
 - **Delegate Tag Exclusion** (if on) makes A ineligible regardless of which source(s) match.
 - **Nested Delegate Exclusion** (if on) rejects A only if B **also declares a delegate**, even if the content source might otherwise match.
 
-If A has no delegate, its served and own-body bytes ordinarily coincide. With [pinned Ord `0.29.1` semantics](https://github.com/ordinals/ord/blob/0.29.1/src/subcommand/server/r.rs#L250-L279), an unresolved delegate makes served content unavailable (`not found`), with **no fallback** to A's own body. A different indexer's fallback does not change the specified `content` rule. Changes in future Ord releases do not automatically rewrite this rule.
+If A has no delegate, its served and own-body bytes ordinarily coincide. With [pinned Ord `0.29.1` semantics](https://github.com/ordinals/ord/blob/0.29.1/src/subcommand/server/r.rs#L250-L279), an unresolved delegate makes served content unavailable (`not found`), with **no fallback by default**. Enabling [`fallback=1`](fallback.md) in a comparison profile with `content=1` instead substitutes A's own body and content type on that failed lookup. Neither future Ord changes nor a separate indexer's fallback silently alter the pinned default.
 
 ## Historical sources and limits
 
@@ -39,7 +41,7 @@ If A has no delegate, its served and own-body bytes ordinarily coincide. With [p
 ## Not yet resolved
 
 - **Both source bits off:** No input source has been selected; an executable profile must define or reject this configuration.
-- **Both source bits on:** What if both sources match *different* District heights for the same inscription? There is no approved precedence, merge or simultaneous-claim interpretation yet. Do **not** silently impose an OR, AND, fallback or source-preference policy.
+- **Both source bits on:** What if both sources match *different* District heights for the same inscription? There is no approved precedence, merge or simultaneous-claim interpretation yet. Do **not** silently impose an OR, AND, implicit source fallback, or source-preference policy. The explicitly defined [`fallback`](fallback.md) bit applies only to failed delegate lookup within enabled `content`, not to this unresolved source-combination question.
 - **MIME and decoder linkage:** Which field's declared content type is tested when using served content, and how declared encoding interacts with selected bytes, requires explicit rules or fixtures. This does **not** change the distinction between body source and served source.
 - **Live OCI / Boppleton delegate policy:** The all-delegates exclusion is a separate candidate, currently off; verify the Live OCI implementation and earliest public date in the later District-only audit.
 
