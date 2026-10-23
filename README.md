@@ -1,8 +1,10 @@
-# bitmap
+# Bitmap Theory
 
-Bitmap is a standard for claiming Bitcoin blocks as districts through Ordinals inscriptions
+Bitmap is a standard for claiming Bitcoin blocks as Districts through Ordinals inscriptions, and transactions within those blocks as Parcels through child inscriptions.
 
-## standard district ruleset
+## Bitmap Ruleset
+
+### District Standard
 
 **schema:** `<district>.bitmap` · regex = `^(?:0|[1-9][0-9]*)\.bitmap(?![\s\S])`
 
@@ -14,9 +16,9 @@ Bitmap is a standard for claiming Bitcoin blocks as districts through Ordinals i
 
 **height:** `<district>` ≤ reveal block height
 
-**order:** first qualifying inscription reveal per district
+**order:** first qualifying inscription reveal per `<district>.bitmap`
 
-## standard parcel ruleset
+### Parcel Standard
 
 **schema:** `<parcel>.<district>.bitmap` · regex = `^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.bitmap(?![\s\S])`
 
@@ -30,4 +32,4 @@ Bitmap is a standard for claiming Bitcoin blocks as districts through Ordinals i
 
 **child:** claimant is a child inscription of the valid `<district>.bitmap` inscription (parent tag 3)
 
-**order:** first qualifying child inscription reveal per `<parcel>.<district>`
+**order:** first qualifying inscription reveal per `<parcel>.<district>.bitmap`
