@@ -26,7 +26,7 @@ Bitmap is a standard for claiming Bitcoin blocks as districts through Ordinals i
 
 **ascii:** ASCII bytes (UTF-8 compatible), ignoring declared charset
 
-**range:** `<parcel>` is a zero-based transaction index within Bitcoin block `<district>` (including index `0` for the coinbase transaction)
+**index:** `<parcel>` MUST be less than or equal to the transaction count minus one of block height `<district>`
 
 **district:** `<district>` has a valid winning District inscription under the standard district ruleset
 
