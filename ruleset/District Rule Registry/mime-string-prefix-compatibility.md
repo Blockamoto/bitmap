@@ -10,8 +10,7 @@
 When enabled, a District candidate's MIME eligibility is checked using the same **literal string-prefix behaviour** observed in the Trac-derived Rust intake gate, rather than accepting only a syntactically valid exact/base media type. For each MIME branch allowed by the selected profile:
 
 - `text/plain` is matched by `starts_with("text/plain")`;
-- `application/json` is matched by `starts_with("application/json")` only when the [JSON MIME exception](json-mime-exception.md) is enabled;
-- the original broad `text/` prefix is matched when the [Text MIME family exception](text-mime-family-exception.md) is enabled.
+- `application/json` is matched by `starts_with("application/json")` only when [`json`](json.md) is enabled;
 
 Thus the historical code can admit malformed labels such as `text/plainbogus` or `application/jsonbogus` that merely start with those bytes. MIME compatibility **does not** relax the District inscription's required exact canonical `<height>.bitmap` body.
 
@@ -24,7 +23,7 @@ Thus the historical code can admit malformed labels such as `text/plainbogus` or
 
 ## Clarifications
 
-- This option is **conditional on the allowed MIME alternatives**; it does not enable `application/json` or arbitrary `text/*` by itself.
+- This option is **conditional on the allowed MIME alternatives**; it does not enable `application/json` or arbitrary `text/*` by itself. The early broad `text/` intake is documented as [history under `text`](plain-text-inscription.md) and has no active binary.
 - A proper parameter like `text/plain;charset=utf-8` can already be valid under the baseline parsed-media-type policy. This option targets invalid/inexact prefix matches.
 - Distinguish a string-prefix implementation quirk from a deliberate specification requiring certain MIME media types.
 - Further tests should check candidate MIME labels and whether any accepted District winner actually depends on the quirk.
