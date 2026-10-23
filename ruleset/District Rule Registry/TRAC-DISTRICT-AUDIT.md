@@ -12,7 +12,7 @@
 
 ## New District Rule Registry entries
 
-All are unnumbered and **off (`0`) by default** pending Standard-profile review. These are **Trac-derived Rust implementation** alternatives and compatibility switches, not assertions about the unrecovered 2023 Trac writer. The independent strict-height historical wording is documented separately below.
+All are unnumbered and **off (`0`) by default** pending Standard-profile review. These are **Trac-derived Rust implementation** alternatives and compatibility switches, not assertions about the unrecovered 2023 Trac writer.
 
 | Rule | Earliest verified code/date | Distinction |
 | --- | --- | --- |
@@ -28,7 +28,6 @@ Relevant changes: [Initial port](https://github.com/Trac-Systems/ord-tap/commit/
 ## Separate historical authored-rule alternatives
 
 - **14 July 2023:** [Blockamoto Labs source](https://github.com/blockamotolabs/ruleset/commit/d140da22635b2d286b9b1960f5b3c76ba1a66632) already describes **lowest inscription number** as the winner; this is earlier than the 26–27 July GitBook date previously used in the registry. [Number](number.md) now records that primary evidence.
-- **18 July 2023:** [Blockamoto Labs commit `f43970c`](https://github.com/blockamotolabs/ruleset/commit/f43970ccd8241d3d630a13be8d80a9fff71c62bf) edits claimed block eligibility from `≤` to `<` reveal-block height. The stronger exclusion is preserved as the **default-off** [Strictly earlier reveal height](strict-prior-reveal-height.md) alternative; the July GitBook still explains `≤`. Do not assume that Trac's unseen writer enforced `<`.
 - **22 September 2023:** [Blockamoto Labs commit `754d4d7`](https://github.com/blockamotolabs/ruleset/commit/754d4d7eda182de76ad543844e530c53426c855c) changes winner phrasing from lowest inscription number to **first valid inscription transaction on block**, and the [District file follow-up](https://github.com/blockamotolabs/ruleset/commit/b94efb8f0982d7561a4582cfdb1937c2597cb63c) confirms it the same day. [Order (Bitcoin reveal order)](order.md) records this historical evidence and now specifies TXI reveal order. The published 2023 phrase does not independently verify that complete order in the original Trac deployment.
 
 ## Source-selection binaries and delegate-tag veto, distinct from Trac rules
