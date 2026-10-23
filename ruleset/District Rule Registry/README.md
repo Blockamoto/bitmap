@@ -12,7 +12,6 @@
 |  | [`order`](order.md) | 1 | Recognise the first eligible District claimant in Bitcoin reveal order: block, transaction, input, then inscription reveal within that input (TXI). |
 |  | [`content`](inscription-content-source.md) | 0 | Evaluate the District claim using content served for the claimant inscription ID, rather than reading its own envelope body directly; that content could therefore be supplied by a delegate. |
 |  | [`number`](number.md) | 0 | Rank eligible District claims by lowest signed Ordinals inscription number. |
-|  | [`strict_height`](strict-prior-reveal-height.md) | 0 | Require claimed block height strictly below reveal height, excluding same-block claims. |
 |  | [`delegate_content_resolution`](delegate-content-resolution.md) | 0 | Reproduce Trac-derived one-hop delegate-content lookup and fallback as a separate comparison policy. |
 |  | [`text_mime_family`](text-mime-family-exception.md) | 0 | Also permit MIME `text/*` subtypes beyond `text/plain` for otherwise qualifying claims. |
 |  | [`json_mime`](json-mime-exception.md) | 0 | Also permit the `application/json` MIME label without relaxing the District claim grammar. |
