@@ -16,12 +16,13 @@ The listed entries are unnumbered and **off (`0`) by default** pending Standard-
 
 | Rule | Earliest verified code/date | Distinction |
 | --- | --- | --- |
-| [Text MIME family exception](text-mime-family-exception.md) | 19 September 2025 | Initial Rust port accepts `text/*`; narrowed to `text/plain` on 25 September 2025. |
 | [JSON MIME exception](json-mime-exception.md) | 19 September 2025 | Shared intake permits `application/json` labels even when District content itself must be exact `<height>.bitmap`. |
 | [Literal MIME string-prefix compatibility](mime-string-prefix-compatibility.md) | 19 September 2025 | Actual `starts_with` MIME intake can match malformed prefix-compatible labels; independent of which MIME family/exception is enabled. |
 | [Nested delegate exclusion](nested-delegate-exclusion.md) | 19 September 2025 | Reject a delegation target that delegates again. Initially located after the TAP-start gate. |
 | [Fallback for unresolved delegate](fallback.md) | 25 September 2025 | When a declared delegate lookup fails, retain the claimant's original body and content type instead of Ord's not-found result. Normal delegate resolution remains part of `content`. |
 | [Negative inscription number exclusion](negative-inscription-number-exclusion.md) | 19 May 2026 | Explicitly reject signed Ordinals inscription numbers below zero. Previously absent from the Rust District creator. |
+
+**Historical MIME note (not a separate binary):** The 19 September 2025 Trac-derived snapshot admitted `text/*`, then the 25 September code narrowed the text check to `text/plain`. This superseded behavior is now documented on the [`text` rule page](plain-text-inscription.md), not in the binary registry.
 
 Relevant changes: [Initial port](https://github.com/Trac-Systems/ord-tap/commit/3f3f851a00301b780e333fc9d8a3c3eaf29920e3) · [MIME narrowing and effective delegation](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea) · [Negative-number guard](https://github.com/Trac-Systems/ord-tap/commit/12ddc36ccfa7655a2bbec20d0245deecdec0ec55).
 
