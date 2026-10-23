@@ -1,24 +1,23 @@
 # JSON
 
-**Code ID (provisional):** `json`  
+**Code ID:** `json`  
 **Standard:** `0`  
-**Introduced:** 19 September 2025
+**Earliest verified related public snapshot:** 19 September 2025. This is not an independently verified original introduction date.
 
 ## Definition
 
-When enabled, permit an inscription with a declared content type beginning with `application/json` to qualify as a District claim **if the District claim body chosen by the profile's content-source rule still satisfies the exact canonical `<height>.bitmap` schema and the other enabled validity rules**. This adds an accepted MIME label, **not** a JSON-object District schema.
+When enabled, also permit the **`application/json` MIME label** for a candidate whose selected body still satisfies the exact canonical `<height>.bitmap` schema and all other enabled rules. This adds a MIME alternative, not a JSON-object or JSON-string claim format.
+
+With [`prefix=0`](prefix.md), compare the parsed media type with `application/json`. With `prefix=1`, use the literal `application/json` prefix. **`json` does not itself enable prefix matching.** The earlier definition's phrase "beginning with" accidentally bundled those two separate questions and is removed in this consolidation.
+
+When disabled, this additional label is not enabled. Existing plain-text eligibility is not removed. Under the agreed no-MIME-filter interpretation of `text=0`, this bit is unnecessary and does not impose a new restriction.
 
 ## History and evidence
 
-- [Trac-Systems/ord-tap initial public commit, 19 September 2025](https://github.com/Trac-Systems/ord-tap/commit/3f3f851a00301b780e333fc9d8a3c3eaf29920e3) implements a shared content-type gate accepting `text/` or `application/json` (via `starts_with`) before its Bitmap District indexing call.
-- [Bitmap claim parser in the same initial commit](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater/tap/ops/bitmap.rs) then examines the raw body for the exact decimal `<height>.bitmap` form. Thus an inscription *labelled* JSON can qualify, but a JSON object containing fields for a claim does not qualify through this exception.
-- The date above is **the earliest verified public implementation snapshot of this behaviour**, not independently verified evidence that Trac first introduced it on that date. The original 2023 Trac Bitmap writer/production validation logic has not been established from this source.
-- The later Trac-derived implementation retains `application/json` as an accepted MIME prefix while narrowing `text/` to `text/plain`.
+- The [initial Trac-derived public Rust snapshot](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater.rs#L984-L989) accepts `text/` or `application/json` using literal prefixes before the District parser.
+- Its [District parser](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater/tap/ops/bitmap.rs#L13-L23) still requires the raw canonical claim. A body `123.bitmap` labelled JSON is different from a body `{"height":123}` or `"123.bitmap"`.
+- The [25 September 2025 revision](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea) narrows the text branch to `text/plain` while retaining the JSON prefix. The [pinned inspected implementation](https://github.com/Trac-Systems/ord-tap/blob/b8f6ea35cf6b9d405d4db7c58555e3c8ab33e8cd/src/index/updater/inscription_updater.rs#L1305-L1316) retains both alternatives.
 
-## Clarifications
+These are public Rust implementation findings, not proof of the original 2023 Trac writer or a particular marketplace deployment. [`body`](inscription-body-source.md) and [`content`](inscription-content-source.md) separately select the source; this MIME-label rule does not select it. Source metadata composition still needs the fixtures identified in the [source note](DISTRICT-CONTENT-OPEN-QUESTION.md).
 
-- A deliberately separate, default-off historical alternative to the [plain-text inscription](plain-text-inscription.md) requirement. Activating this exception must not silently disable the latter for ordinary plain-text claims.
-- Source code uses a **string-prefix** test, not MIME parameter parsing; the independent historical compatibility option is recorded in [Prefix](prefix.md).
-- What “content” means for a District candidate carrying a delegate is **not yet agreed**. See [District content semantics decision](DISTRICT-CONTENT-OPEN-QUESTION.md). This MIME label exception does not choose own versus delegated content.
-- This does **not** introduce an alternative JSON-object claim grammar: the body must still match the canonical plain District claim syntax.
-- No Parcel, ownership, transfer, or staking semantics are implied.
+[Registry](README.md) · [Prefix](prefix.md) · [Audit report](SIX-RULE-AUDIT.md).

@@ -1,48 +1,57 @@
-# District source and delegation distinctions: 22 October 2026
+# District source and delegation distinctions
 
-**Registry status:** **Three separate binary questions are now recorded**, at the creator's direction; original 2023 usage and certain cross-rule combinations remain unverified.  
-**Historical protection:** The original 2023 rules' “district claim command” and “inscription must contain” language is preserved as written. Do not substitute this 2026 clarification into a purported 2023 quotation.  
-**Index positions and executable profile semantics:** Pending.
+**Recorded:** 22 October 2026; terminology reconciled 23 October 2026.  
+**Scope:** Current draft source, fallback and veto distinctions. Original 2023 language must not be rewritten as though these later choices were explicit then. Numeric positions and executable composition remain pending.
 
-## Recorded independent choices
+## Independent questions
 
-1. **[Body](inscription-body-source.md):** Enable evaluating the candidate against the claimant inscription's **own undelegated envelope body bytes**, regardless of what HTTP content serving would return.
-2. **[Content](inscription-content-source.md):** Enable evaluating the candidate against content that would be **served for the claimant inscription ID**. Under the pinned Ord `0.29.1` content handler, a declared delegate could supply the served bytes; this is not a different claim schema.
-3. **[Delegate Tag Exclusion](delegate-tag-exclusion.md):** Reject any claimant **merely for declaring a delegate**, regardless of how content was selected and whether its own bytes match.
+| ID | Question | Proposed Standard |
+| --- | --- | :---: |
+| [`body`](inscription-body-source.md) | Evaluate the claimant's own envelope body rather than served-source content. | 1 |
+| [`content`](inscription-content-source.md) | Evaluate the source selected for the claimant ID by pinned Ord one-hop resolution. | 0 |
+| [`fallback`](fallback.md) | On a failed delegate lookup within enabled content resolution, substitute the claimant's own body and content type. | 0 |
+| [`delegate`](delegate-tag-exclusion.md) | Veto a claimant for raw tag-11 presence in its own envelope, regardless of the value. | 0 |
+| [`nested`](nested-delegate-exclusion.md) | Veto a claimant whose decoded reference resolves to a target with its own decodable delegate reference. | 0 |
 
-A fourth pre-existing rule, **[Nested Delegate Exclusion](nested-delegate-exclusion.md)**, rejects the narrower A → B → C scenario when A's immediate delegate B itself declares a delegate. It is **not** the same as all-delegates exclusion.
-
-A separate default-off **[`fallback`](fallback.md)** comparison rule records the later Trac-derived outcome **only when a declared delegate lookup fails while `content=1`**: in that case it substitutes the claimant's own body and content type. It does not change ordinary successful Ord content resolution and is not another general claim-source selector.
-
-**ID clarification (22 October 2026):** The short names are now `body` (claimant's own bytes) and `content` (served bytes). The historical `content=1` own-body rule is not equivalent to today's `content` ID. Do not translate old and new profiles merely by matching the name.
-
-No one of these binaries is defined as the negation of another. The first two concern **source selection** only, the third and fourth concern **eligibility vetoes**.
+The first two are source selectors, the third is a conditional source override, and the last two are eligibility vetoes. None is defined simply as the negation of another. Historic `content=1` meant own-body input and must not be confused with today's served-source `content` ID.
 
 ## Concrete distinction
 
-Suppose A's own body is `123.bitmap`, but it delegates to B whose body is `234.bitmap`.
+Suppose A's body is `123.bitmap`, A refers to B, and B's own body is `234.bitmap`.
 
-- **Inscription Body** examines `123.bitmap` for A.
-- **Inscription Content** examines `234.bitmap` for A under Ord `0.29.1` one-hop served-content behaviour.
-- **Delegate Tag Exclusion** (if on) makes A ineligible regardless of which source(s) match.
-- **Nested Delegate Exclusion** (if on) rejects A only if B **also declares a delegate**, even if the content source might otherwise match.
+- `body` tests `123.bitmap` for claimant A.
+- `content` tests B's stored `234.bitmap` bytes for claimant A under pinned one-hop resolution, before any separately permitted decompression.
+- `delegate=1` vetoes A because its own envelope contains tag 11, even if A's raw body is otherwise eligible.
+- `nested=1` vetoes A if B itself has a decodable delegate reference. It need not fetch that reference's target C. A malformed raw value on B that does not decode is not sufficient for the evidenced Trac predicate.
 
-If A has no delegate, its served and own-body bytes ordinarily coincide. With [pinned Ord `0.29.1` semantics](https://github.com/ordinals/ord/blob/0.29.1/src/subcommand/server/r.rs#L250-L279), an unresolved delegate makes served content unavailable (`not found`), with **no fallback by default**. Enabling [`fallback=1`](fallback.md) in a comparison profile with `content=1` instead substitutes A's own body and content type on that failed lookup. Neither future Ord changes nor a separate indexer's fallback silently alter the pinned default.
+If A has no decodable delegate reference, Ord uses A's own body. A malformed raw delegate field may therefore leave source selection unchanged while still triggering the independent raw-presence `delegate` veto. Do not conflate an absent decoded reference with an absent raw field.
 
-## Historical sources and limits
+If A has a decoded reference to a missing B, pinned Ord source resolution supplies no served-content claim by default. `fallback=1` can substitute A's own body and content type. This does not override `delegate` or other eligibility vetoes. A successful lookup whose content fails the District schema does not trigger fallback.
 
-- [July 2023 Blockamoto Labs District rules](https://github.com/blockamotolabs/ruleset/blob/d140da22635b2d286b9b1960f5b3c76ba1a66632/README.md) name the *district claim command* and grammar, without explicitly choosing own-body versus served-content source or a general delegate veto.
-- [19 September 2025 Trac-derived initial Rust Bitmap implementation](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater/tap/ops/bitmap.rs#L4-L23) parses the claimant's original `payload.body()`. This verifies that later public code, not the original 2023 writer.
-- [25 September 2025 `ord-tap` commit](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea) selects a one-level `payload_eff` and also moves a nested-delegate veto.
-- [Pinned Ord `0.29.1` served-content handler](https://github.com/ordinals/ord/blob/0.29.1/src/subcommand/server/r.rs#L250-L279) follows one delegate hop, without fallback when the target is unresolved; the [undelegated-content handler](https://github.com/ordinals/ord/blob/0.29.1/src/subcommand/server/r.rs#L623-L645) deliberately does not follow delegates. This is a fixed source-resolution reference, not a second District rule.
-- [16 October 2026 prior District working specification](https://github.com/Blockamoto/bitmap-old/blob/ccf7271a61a2cead4781d4a2bb9c86da761f1cd6/DISTRICT-RULESET.md) explicitly distinguishes using one's own body from rejecting all delegates.
-- The original 2023 Trac writer remains unrecovered. Its actual enforcement of any alternative is **unknown**. The [Trac audit](../../index/Trac.md) stores what has and has not been observed.
+`content` is pinned to Ord **0.29.1, commit `d2ff0a789033e3d784048a23e856f15c54e88806`**. This fixes the source-selection reference, not transient HTTP availability, proxy behavior, client auto-decompression or unrelated Ord features. See [the handler](https://github.com/ordinals/ord/blob/d2ff0a789033e3d784048a23e856f15c54e88806/src/subcommand/server/r.rs#L250-L357).
 
-## Not yet resolved
+## Coding metadata and claimant metadata are different
 
-- **Both source bits off:** No input source has been selected; an executable profile must define or reject this configuration.
-- **Both source bits on:** What if both sources match *different* District heights for the same inscription? There is no approved precedence, merge or simultaneous-claim interpretation yet. Do **not** silently impose an OR, AND, implicit source fallback, or source-preference policy. The explicitly defined [`fallback`](fallback.md) bit applies only to failed delegate lookup within enabled `content`, not to this unresolved source-combination question.
-- **MIME and decoder linkage:** Which field's declared content type is tested when using served content, and how declared encoding interacts with selected bytes, requires explicit rules or fixtures. This does **not** change the distinction between body source and served source.
-- **Live OCI / Boppleton delegate policy:** The all-delegates exclusion is a separate candidate, currently off; verify the Live OCI implementation and earliest public date in the later District-only audit.
+Source selection must preserve the selected inscription's stored body and associated metadata before transport/client decoding. [`brotli`](brotli-decompression-eligibility.md) independently asks whether a decompressed variant can qualify. The claimant's [`exclusion`](content-encoding-tag-exclusion.md) tag-9 veto and `delegate` tag-11 veto continue to inspect A, not automatically B. This separation prevents an HTTP request's encoding negotiation from silently becoming a validity rule.
 
-**Current provisional default combination:** `body=1`; `content=0`; Delegate Tag Exclusion `0`; Nested Delegate Exclusion `0`. These are **working profile defaults**, not a declaration that an ambiguous 2023 author or original Trac implementation had specified these exact binaries. No Parcel interpretation is imported.
+## Historical evidence
+
+- [July 2023 authored rules](https://github.com/blockamotolabs/ruleset/blob/d140da22635b2d286b9b1960f5b3c76ba1a66632/README.md) name a District claim command and grammar without explicitly settling own versus served source or a blanket delegate veto.
+- [19 September 2025 Trac-derived initial District parser](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater/tap/ops/bitmap.rs#L4-L23) reads original `payload.body()`.
+- [25 September 2025 change](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea) introduces the effective payload and moves the nested veto. This is evidence for the later public Rust port, not the original 2023 writer.
+- [16 October 2026 working specification](https://github.com/Blockamoto/bitmap-old/blob/ccf7271a61a2cead4781d4a2bb9c86da761f1cd6/DISTRICT-RULESET.md) explicitly distinguishes own-body use from rejecting delegate declarations.
+- [Pinned Trac hook](https://github.com/Trac-Systems/ord-tap/blob/b8f6ea35cf6b9d405d4db7c58555e3c8ab33e8cd/src/index/updater/inscription_updater.rs#L1245-L1320) separates nesting detection, effective-payload selection and lookup-failure retention. The [indexer audit](../../index/Trac.md) records the historical evidence boundaries.
+
+## Still to resolve before executable profiles
+
+**Both source bits off:** no source is selected. Define or reject that profile rather than assuming a default.
+
+**Both source bits on:** A may supply two different canonical heights. No approved OR, AND, source priority, simultaneous claim or implicit source-fallback policy exists. The explicit `fallback` bit does not answer that composition question.
+
+**Replay snapshot and availability:** define whether target existence is evaluated at the claimant reveal, at a fixed comparison tip or under another explicitly specified snapshot. Same-block targets and local database failures must have reproducible treatment. Do not let a failed network request stand in for authenticated absence.
+
+**MIME and coding metadata:** source selection has been distinguished, but complete executable linkage, malformed fields, byte transforms and fixtures still need freezing. `json` selects a label and `prefix` a matching method; neither selects a body or a decoder.
+
+**Live OCI:** reported delegate and coding exclusions still need the exact implementation/parser before raw field-presence equivalence can be claimed. The proposed defaults are working decisions, not claims about unanimous historical deployment.
+
+[Registry](README.md) · [Six-rule audit](SIX-RULE-AUDIT.md) · [Production gates](CODE-IDS-AND-REVIEW-GATES.md).

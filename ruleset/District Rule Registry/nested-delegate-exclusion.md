@@ -1,24 +1,38 @@
-# Nested delegate exclusion for District claims
+# Nested
 
-**Code ID (provisional):** `nested_delegate_exclusion`  
+**Code ID:** `nested`  
+**Previous draft ID:** `nested_delegate_exclusion`  
 **Standard:** `0`  
-**Introduced:** 19 September 2025
+**Evidence:** Trac-derived public Rust implementation; first verified snapshot 19 September 2025, not proven original 2023 inception.
 
 ## Definition
 
-When enabled, reject a District candidate whose inscription contains a delegation reference to another inscription that **itself** has a delegation reference. The referenced delegate is checked for nesting; a two-or-more-hop delegation chain is not followed as a District claim.
+When enabled, reject claimant A when A has a **decodable delegate reference** to B, B resolves to an inscription, and **B itself has a decodable delegate reference**.
 
-## History and evidence
+In the audited Rust code the predicate is `payload.delegate()` followed by fetching B and testing `B.delegate().is_some()`. The destination C of B's reference need not be fetched or exist for that predicate to be true. This is a veto on a nested reference, not an instruction to follow it.
 
-- [Initial public `ord-tap` revision, 19 September 2025](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater.rs) checks `payload.delegate()`, obtains the referenced inscription, tests `insc.delegate().is_some()`, and returns on nested delegation **in the post-TAP-start path**. In that revision, the pre-TAP-start District path does not apply the nested guard.
-- [25 September 2025 parity update](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea) moves one-level delegate resolution and the nested guard before both District indexing paths.
-- The introduced date here marks first verified public indexer code, **not** independently verified inception of this policy in the original 2023 Trac writer.
+When disabled, this particular nested-reference condition does not veto A. It does not enable recursive resolution or override any other eligibility rule.
 
-## Clarifications
+## Important boundary corrections
 
-- This veto is logically separate from [single-level delegate content resolution](delegate-content-resolution.md). An indexer may permit first-level delegates while rejecting nested ones.
-- The separate [Delegate Tag Exclusion](delegate-tag-exclusion.md) is an **all-delegates veto**; this nested check is narrower and is meaningful where a profile otherwise permits delegate-tagged candidates.
-- [Inscription Body](inscription-body-source.md) and [Inscription Content](inscription-content-source.md) choose where claim bytes come from, not whether delegates are banned. The source/eligibility distinction is preserved in [the source-and-delegation note](DISTRICT-CONTENT-OPEN-QUESTION.md).
-- The September 2025 early gate placement affects which reveal heights actually encountered the check.
-- If a referenced inscription cannot be found, the code does not treat that absence as proof of nesting; unresolved delegation is a separate edge case.
-- District claim recognition only. Parcel parent/child references and asset transfers are unrelated.
+The earlier wording, "the delegate declares a delegate", was too broad to reproduce the evidenced code exactly. **A raw tag 11 with an undecodable value on B does not make `B.delegate().is_some()` true.** That differs from the raw-presence predicate in [`delegate`](delegate-tag-exclusion.md).
+
+If A has no decodable reference, this predicate does not trigger. In the inspected Trac branch, a missing B or lookup error is treated as no detected nesting. That is an observed implementation behavior, not permission for a deterministic validator to mistake unavailable local data for proven on-chain absence. The replay snapshot, same-block availability and error policy must be pinned before claiming complete Trac reproduction.
+
+The rule can veto A under either `body` or `content`: Trac checks nesting before passing the selected payload to its District parser. It is not dependent on which body's text eventually matches.
+
+## Distinct from normal Ord resolution
+
+[Ord 0.29.1's content handler](https://github.com/ordinals/ord/blob/d2ff0a789033e3d784048a23e856f15c54e88806/src/subcommand/server/r.rs#L250-L279) substitutes B once and does not inspect B's delegate to impose this veto. Thus A can resolve to B's own canonical body under one-hop content semantics while `nested=1` separately rejects A. Not following a second hop is not the same as rejecting a first-hop target that contains another reference.
+
+[`delegate=1`](delegate-tag-exclusion.md) rejects all claimant tag-11 declarations and therefore already rejects every case caught by `nested`. That conditional redundancy does not justify merging the bits: with `delegate=0`, a profile can permit ordinary delegates while rejecting only nested ones. [`fallback`](fallback.md) concerns a failed content lookup, not this veto.
+
+## History and implementation evidence
+
+- [19 September 2025 snapshot](https://github.com/Trac-Systems/ord-tap/blob/3f3f851a00301b780e333fc9d8a3c3eaf29920e3/src/index/updater/inscription_updater.rs): nested checking is in the post-TAP-start path; the earlier-height Bitmap path bypasses it.
+- [25 September 2025 change](https://github.com/Trac-Systems/ord-tap/commit/acf6b7bbc7862e50999edd42c02ae170dfe23eea): moves delegate resolution and the nested check before both Bitmap paths.
+- [Pinned inspected implementation `b8f6ea35`](https://github.com/Trac-Systems/ord-tap/blob/b8f6ea35cf6b9d405d4db7c58555e3c8ab33e8cd/src/index/updater/inscription_updater.rs#L1245-L1320): explicitly tests a decoded reference on B, returns on nesting, and separately selects an effective payload.
+
+Those publication dates do not establish the original 2023 service's policy or deployment dates. Historical activation/coverage remains implementation evidence, not an additional hidden rule in this ID.
+
+[Registry](README.md) · [Audit report](SIX-RULE-AUDIT.md).
