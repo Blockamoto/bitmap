@@ -5,7 +5,7 @@
 **Starting commit:** `ccc2b6b2c32a8d6db934ddea39609c6d32eddc26`  
 **Scope:** The six entries from Brotli downwards, plus directly dependent naming and composition corrections. Districts only. This is a documentation/source-code audit, not a full-chain replay or a production-validator release.
 
-**Subsequent creator QA (23 October 2026):** The original audit below records the former ordering with `text` after `order`. The [current registry](README.md) now lists the six approved enabled rules as `schema`, `body`, `text`, `ascii`, `height`, `order` at provisional indices `0`–`5`, followed by the first disabled rule `content` at index `6`. Schema's reference regex is hardened, and Order now uses lowercase `i` in `TXi`. Standard values remain unchanged; the dated findings below remain an audit snapshot.
+**Subsequent creator QA (23 October 2026):** The original audit below records the former ordering with `text` after `order`. The [current registry](README.md) now lists the six approved enabled rules as `schema`, `body`, `text`, `ascii`, `height`, `order` at provisional indices `0`–`5`, followed by the first disabled rule `content` with its index intentionally left blank. Schema's reference regex is hardened, and Order now uses lowercase `i` in `TXi`. Standard values remain unchanged; the dated findings below remain an audit snapshot.
 
 ## Outcome
 
