@@ -16,7 +16,7 @@ The listed entries are unnumbered and **off (`0`) by default** pending Standard-
 
 | Rule | Earliest verified code/date | Distinction |
 | --- | --- | --- |
-| [JSON MIME exception](json-mime-exception.md) | 19 September 2025 | Shared intake permits `application/json` labels even when District content itself must be exact `<height>.bitmap`. |
+| [JSON comparison rule](json.md) | 19 September 2025 | Shared intake permits `application/json` labels even when District content itself must be exact `<height>.bitmap`. |
 | [Literal MIME string-prefix compatibility](mime-string-prefix-compatibility.md) | 19 September 2025 | Actual `starts_with` MIME intake can match malformed prefix-compatible labels; independent of which MIME family/exception is enabled. |
 | [Nested delegate exclusion](nested-delegate-exclusion.md) | 19 September 2025 | Reject a delegation target that delegates again. Initially located after the TAP-start gate. |
 | [Fallback for unresolved delegate](fallback.md) | 25 September 2025 | When a declared delegate lookup fails, retain the claimant's original body and content type instead of Ord's not-found result. Normal delegate resolution remains part of `content`. |
