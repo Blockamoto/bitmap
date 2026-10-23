@@ -12,6 +12,12 @@ There are **16** active IDs:
 
 The first six have proposed Standard value `1`; the remaining ten have value `0`. Creator QA approved the order `schema`, `body`, `text`, `ascii`, `height`, `order` and assigned provisional indices `0`–`5` to those six only. The first Standard-off rule, `content`, and all subsequent rules remain unnumbered pending review; `prefix` stays last. Draft indices are not frozen production bit positions.
 
+## Bitcoin input and Ord compatibility boundary
+
+The proposed Standard recognizes Ordinals-style inscription envelopes in Bitcoin transaction input witness Tapscript, then evaluates the claimant's own concatenated envelope-body payload bytes. Transaction/witness serialization and HTTP-served or decoded content are **not** themselves the claim input. `body` selects that source; `ascii`, `schema` and `text` separately test byte grammar and MIME metadata. Not resolving a delegate does not reject a delegate-tagged claimant; the independent `delegate` veto is Standard `0`. Brotli decompression and encoding-tag rejection are also separate Standard-off questions.
+
+Ord is a versioned **reference implementation for compatibility checks**, not a source authority or an implicit rolling parser policy. Do not claim envelope parsing has been proven equivalent to a particular Ord version without fixtures and a documented comparison. The Ord 0.29.1 snapshot already pinned on `content` specifies that optional one-hop **served-content** behavior only; it does not pin the entire District interpretation. Future compatibility reviews must record the exact implementation revision, representative envelope/body fixtures, Bitcoin tip where relevant, and any outcome differences. Material differences call for explicit specification/profile review, not an automatic upgrade. This clarification adds **no binary rule** and changes no approved indices or Standard values.
+
 ## Latest one-word consolidation
 
 | Previous draft ID | Current ID | Change |

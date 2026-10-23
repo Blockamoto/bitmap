@@ -15,6 +15,8 @@
 
 The first two are source selectors, the third is a conditional source override, and the last two are eligibility vetoes. None is defined simply as the negation of another. Historic `content=1` meant own-body input and must not be confused with today's served-source `content` ID.
 
+**Proposed Standard path (23 October 2026 clarification):** `body=1; content=0; fallback=0; delegate=0; nested=0`. The claimant's own envelope body is extracted from Bitcoin transaction input witness Tapscript. The delegate target is **not dereferenced** to obtain claim bytes, but the presence of a delegate declaration is not by itself a disqualification. This leaves the independent MIME, byte, schema, height, order and encoding/exclusion settings to do their stated jobs. The Ord 0.29.1 pin below is only for the disabled `content` alternative, not a general authority over raw envelope recognition.
+
 ## Concrete distinction
 
 Suppose A's body is `123.bitmap`, A refers to B, and B's own body is `234.bitmap`.

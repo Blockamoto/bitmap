@@ -13,6 +13,8 @@ When disabled, decompression cannot confer additional eligibility. This does **n
 
 Selecting `body` or `content` determines which inscription supplies bytes. It does not silently enable this transform. `brotli` does not enable gzip, charset transcoding, repeated decompression, whitespace trimming or JSON extraction.
 
+**Proposed Standard boundary:** With `body=1` and `brotli=0`, Bitmap tests the original envelope-body payload bytes; the fact that Ord or a browser *can* render a decompressed representation does not make those decoded bytes a District claim. Nor does an encoding declaration alone disqualify an otherwise qualifying raw body while `exclusion=0`. The independent Ord-envelope recognition reference does not silently enable either content decompression or an encoding-tag veto.
+
 ## Bitcoin, Ord and HTTP are different layers
 
 Bitcoin supplies the committed witness bytes; a reader can explicitly decompress those bytes without asking Ord. The distinction is the reader's transformation policy, not whether the data came from Bitcoin or from an Ord node.

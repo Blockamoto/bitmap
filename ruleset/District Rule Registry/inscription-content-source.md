@@ -20,6 +20,8 @@ A malformed raw delegate value can fail Ord's `delegate()` decoding and therefor
 
 When disabled, this source rule contributes no served-content candidate. It neither requires nor forbids the claimant having a delegate tag.
 
+**Boundary relative to the Standard:** `content=0` means the approved `body=1` path does **not** fetch `/content/<id>` or follow the claimant's delegate. The Ord 0.29.1 snapshot cited here is the specified comparison reference **only if this alternative source rule is enabled**. It is not an authority over the ordinary raw-envelope Body rule and does not establish a global Ord version pin or a completed envelope-compatibility test. A future Ord update must not silently alter even this optional resolution behavior.
+
 ## Source bytes versus HTTP delivery
 
 This rule selects **which inscription supplies the stored body and associated metadata**. It does not select an implicit transformation pipeline. Preserve the resolved inscription's stored body before HTTP content decoding; the independent [`brotli`](brotli-decompression-eligibility.md) rule controls whether decompression may add eligibility.

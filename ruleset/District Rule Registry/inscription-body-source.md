@@ -14,6 +14,16 @@ When disabled (`0`), this source-selection rule contributes no claimant-body can
 
 This rule selects **where claim bytes come from**, not whether they satisfy the sole active [canonical `<height>.bitmap` District schema](canonical-district-schema.md). Strict decoding and MIME eligibility remain separate. The withdrawn hash-prefixed tutorial typo is **not** a selectable schema; see [excluded historical typo](CODE-IDS-AND-REVIEW-GATES.md#deliberately-excluded-historical-typo).
 
+## Envelope extraction and byte boundary (23 October 2026 clarification)
+
+Bitcoin transactions, not an Ord server or inscription-content endpoint, are the input source for the proposed Standard. Inspect transaction **input witness Tapscript**, recognize Ordinals-style `ord` inscription envelopes and their field/body separator, then take the **claimant envelope's own body payload**. A body can be distributed across multiple script data pushes: concatenate those body pushes **in encounter order** to obtain the selected payload bytes. Do not run the District claim regex over the entire transaction, witness serialization, surrounding Tapscript opcodes, or envelope fields. Do not manufacture body bytes when the body is absent.
+
+Those selected bytes are the stored payload **before** any HTTP content delivery, delegate resolution, Brotli/gzip decompression, charset transcoding, trimming or Unicode normalization. The independent [`text`](plain-text-inscription.md) rule evaluates the inscription's declared MIME type; [`ascii`](ascii-byte-matching.md) and [`schema`](canonical-district-schema.md) determine whether the selected payload qualifies. This Body rule does **not** implicitly apply a decoder or a general rejection of encoding declarations; those remain independently represented by [`brotli`](brotli-decompression-eligibility.md) and [`exclusion`](content-encoding-tag-exclusion.md).
+
+An inscription may declare a delegate and still supply qualifying bytes in **its own body**. `body=1` never dereferences that declaration; not following a delegate is different from vetoing its declaration. The latter is the separate [`delegate`](delegate-tag-exclusion.md) rule (`0` in the proposed Standard).
+
+Ord's parser is a **versioned comparison reference** for recognizing envelopes, not an external source of authority or an automatic rolling dependency. This clarification does not claim that a full envelope compatibility test against a particular Ord release has been completed. The specific Ord 0.29.1 pin on [`content`](inscription-content-source.md) is limited to that optional served-content resolution, which is disabled in the proposed Standard. Any upstream parsing difference capable of changing Bitmap results requires documented fixtures and an explicit review, not silent adoption.
+
 ## History and evidence
 
 - The [July 2023 authored District rules](https://github.com/blockamotolabs/ruleset/blob/d140da22635b2d286b9b1960f5b3c76ba1a66632/README.md) describe a District “claim command” and pattern, but **do not explicitly define “content” as the envelope body** or settle delegation.
