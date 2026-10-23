@@ -14,12 +14,12 @@
 |  | [`number`](number.md) | 0 | Rank eligible District claims by lowest signed Ordinals inscription number. |
 |  | [`fallback`](fallback.md) | 0 | If a declared delegate cannot be resolved while evaluating served `content`, use the claimant inscription's own envelope body and content type instead of returning not found. |
 |  | [`json`](json.md) | 0 | Also permit the `application/json` MIME label without relaxing the District claim grammar. |
-|  | [`mime_prefix_compatibility`](mime-string-prefix-compatibility.md) | 0 | Apply historical literal MIME-string prefix matching rather than strictly parsed MIME matching. |
 |  | [`brotli`](brotli-decompression-eligibility.md) | 0 | Allow a separately specified Brotli-decompression path to make claim bytes eligible. |
 |  | [`encoding_tag_exclusion`](content-encoding-tag-exclusion.md) | 0 | Reject a candidate solely because Ord content-encoding tag 9 is present. |
 |  | [`nested_delegate_exclusion`](nested-delegate-exclusion.md) | 0 | Reject claimants whose immediate delegate itself declares a delegate. |
 |  | [`negative_inscription_number_exclusion`](negative-inscription-number-exclusion.md) | 0 | Reject claimants with negative signed Ordinals inscription numbers. |
 |  | [`delegate_exclusion`](delegate-tag-exclusion.md) | 0 | Reject any claimant declaring Ord delegate field 11, independently of its own body. |
+|  | [`prefix`](prefix.md) | 0 | Apply historical literal MIME-string prefix matching rather than strictly parsed MIME matching. |
 
 **Standard** is the *proposed* Bitmap Standard profile value (`1` enabled; `0` disabled), not a claim that every historical indexer used it. The table groups all proposed Standard `1` rules above the `0` rules, beginning with `schema`, `body`, and `text`. This is a review/display order, **not** historical chronology or permanent numeric bit positions. The canonical `<height>.bitmap` syntax is the only active District claim schema; no prototype/alternate schema is selectable. No rule positions or profile hashes have been assigned.
 
