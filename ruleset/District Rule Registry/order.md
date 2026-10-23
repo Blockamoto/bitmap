@@ -8,6 +8,8 @@
 
 The **first eligible District claimant wins** when inscriptions are examined in Bitcoin reveal order: **block height → transaction index within the block → input index within the transaction → inscription-reveal order within that input (TXI)**.
 
+**Within one input:** Multiple inscription envelopes can occur in a single input. Their relative reveal order is the order in which those envelopes are encountered by the specified Ord-compatible envelope parser. They can be assigned to different sats or satpoints, but the inscription pointer, assigned sat, and satpoint position do **not** determine which claimant is first. This last ordering step resolves multiple eligible claims revealed in the same input; it is not an additional satpoint tie-break rule.
+
 Apply the enabled source, MIME, ASCII, schema, height, and exclusion rules to each claim. The first claimant **passing** those tests for a particular District wins. Earlier ineligible inscriptions do not reserve a District; later eligible claimants for the same District lose to the first eligible one.
 
 The TXI sequence is physical reveal order, **not** the Ordinals global inscription number, a block timestamp, output order, or the order returned by an explorer. There is no independent active `first` switch or `precedence_bitcoin_reveal` switch; those previous draft decisions are combined in `order`.
