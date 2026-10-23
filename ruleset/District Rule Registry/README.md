@@ -14,7 +14,7 @@
 |  | [`number`](number.md) | 0 | Rank eligible District claims by lowest signed Ordinals inscription number. |
 |  | [`fallback`](fallback.md) | 0 | If a declared delegate cannot be resolved while evaluating served `content`, use the claimant inscription's own envelope body and content type instead of returning not found. |
 |  | [`text_mime_family`](text-mime-family-exception.md) | 0 | Also permit MIME `text/*` subtypes beyond `text/plain` for otherwise qualifying claims. |
-|  | [`json_mime`](json-mime-exception.md) | 0 | Also permit the `application/json` MIME label without relaxing the District claim grammar. |
+|  | [`json`](json.md) | 0 | Also permit the `application/json` MIME label without relaxing the District claim grammar. |
 |  | [`mime_prefix_compatibility`](mime-string-prefix-compatibility.md) | 0 | Apply historical literal MIME-string prefix matching rather than strictly parsed MIME matching. |
 |  | [`brotli`](brotli-decompression-eligibility.md) | 0 | Allow a separately specified Brotli-decompression path to make claim bytes eligible. |
 |  | [`encoding_tag_exclusion`](content-encoding-tag-exclusion.md) | 0 | Reject a candidate solely because Ord content-encoding tag 9 is present. |
