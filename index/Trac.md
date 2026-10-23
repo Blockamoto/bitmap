@@ -106,13 +106,13 @@ Trac has more than one relevant historical public artifact. Do **not** treat the
 
 **Registry status:** Broad `text/*` eligibility was retired from the binary registry and is preserved as history under [`text`](../ruleset/District%20Rule%20Registry/plain-text-inscription.md).
 
-**Open history checks:** Find independently dated pre-September-2025 Trac writer, archived source, deployment evidence, or test fixtures that establish whether `text/*` was accepted earlier. In their absence, keep the historical introduction **unknown**. Literal MIME-prefix behaviour is now registered as a [separate provisional compatibility option](../ruleset/District%20Rule%20Registry/mime-string-prefix-compatibility.md); whether it changes actual historical winners still requires tests.
+**Open history checks:** Find independently dated pre-September-2025 Trac writer, archived source, deployment evidence, or test fixtures that establish whether `text/*` was accepted earlier. In their absence, keep the historical introduction **unknown**. Literal MIME-prefix behaviour is now registered as a [separate provisional compatibility option](../ruleset/District%20Rule%20Registry/prefix.md); whether it changes actual historical winners still requires tests.
 
 ### TRAC-D02 — JSON MIME exception
 
 **Implementation behaviour:**
 - The District intake gate accepts a content-type **string beginning with** `application/json`, even though the candidate's content must still pass the exact canonical `<height>.bitmap` parser. A body such as `840000.bitmap` with a JSON MIME label can pass this gate; a JSON object such as `{"height":840000}` does **not** pass the District body parser.
-- This is a literal string-prefix test, **not** a parsed MIME type equality check. Literal `application/json` prefix matching is recorded as a [separate provisional compatibility option](../ruleset/District%20Rule%20Registry/mime-string-prefix-compatibility.md); whether any real District outcome depends on it remains open.
+- This is a literal string-prefix test, **not** a parsed MIME type equality check. Literal `application/json` prefix matching is recorded as a [separate provisional compatibility option](../ruleset/District%20Rule%20Registry/prefix.md); whether any real District outcome depends on it remains open.
 - The initial Rust snapshot applies the MIME guard to the original payload. From the 25 September 2025 delegation change, it applies the guard to the *effective* payload after single-level delegate resolution. Delegation eligibility is independently reviewed, and the served-content source follows pinned Ord resolution with a separate failed-lookup `fallback` option.
 
 **Dated evidence:**
@@ -124,7 +124,7 @@ Trac has more than one relevant historical public artifact. Do **not** treat the
 
 **Registry status:** Separately documented under [`json`](../ruleset/District%20Rule%20Registry/json.md). This audit does not allocate rule numbers.
 
-**Open checks:** Seek 2023 writer evidence for historical introduction. Test the independently registered [MIME prefix-compatibility option](../ruleset/District%20Rule%20Registry/mime-string-prefix-compatibility.md); do not fold MIME-prefix quirks into the JSON MIME-label exception.
+**Open checks:** Seek 2023 writer evidence for historical introduction. Test the independently registered [`prefix` comparison option](../ruleset/District%20Rule%20Registry/prefix.md); do not fold MIME-prefix quirks into the JSON MIME-label exception.
 
 ### TRAC-D03 — Nested delegate exclusion
 
