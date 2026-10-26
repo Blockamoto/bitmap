@@ -33,3 +33,36 @@ Bitmap is a standard for claiming Bitcoin blocks as Districts through Ordinals i
 **child:** claimant is a child inscription of the valid `<district>.bitmap` inscription (parent tag 3)
 
 **order:** first qualifying inscription reveal per `<parcel>.<district>.bitmap`
+
+# bitmap product
+
+Bitmap inscriptions and the sats on which they are inscribed inherit Ordinals capabilities, including content, metadata, metaprotocols, delegates, properties (including galleries and attributes), and reinscriptions.
+
+Beyond the Bitmap claim itself, Bitmap prescribes no specific content, use case, or product standard. Products may adopt existing standards, define their own, or support multiple standards.
+
+Reinscriptions are the standard way to associate additional content with a Bitmap sat, while the Bitmap Interoperable Metadata Convention is recommended for interoperability of metadata and standards.
+
+## reinscriptions
+
+Multiple inscriptions may occupy the same sat. Each inscription remains independent, and products may interpret them individually or together.
+
+## bitmap interoperable metadata convention
+
+Recommended for interoperability of metadata and standards.
+
+**structure:** a top-level CBOR map containing key-value pairs.
+
+**key:** identifies an independent standard or metadata format.
+
+**value:** any valid CBOR value, defined by its corresponding key.
+
+**reading:** interpret recognised keys; ignore unrecognised keys.
+
+**example:** JSON representation with placeholder identifiers and values.
+
+```json
+{
+  "<standard-one>": "<value>",
+  "<standard-two>": "<value>"
+}
+```
