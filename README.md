@@ -58,11 +58,13 @@ Recommended for interoperability of metadata and standards.
 
 **reading:** interpret recognised keys; ignore unrecognised keys.
 
-**example:** JSON representation with placeholder identifiers and values.
+**example:** illustrative JSON-style representation with placeholder identifiers and values.
 
 ```json
 {
   "<standard-one>": "<value>",
-  "<standard-two>": "<value>"
+  "<standard-two>": {
+    // Custom metadata
+  }
 }
 ```
