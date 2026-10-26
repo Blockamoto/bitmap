@@ -91,3 +91,11 @@ A Bitmap may declare a preferred platform through metadata reinscriptions. Prefe
   }
 }
 ```
+
+### platform blinking
+
+Platforms are encouraged to support direct navigation to Bitmap addresses through URL fragments.
+
+**format:** `/content/<platform-inscription-id>#<bitmap-address>`
+
+**behaviour:** interpret fragments ending in `.bitmap` as Bitmap addresses and open the corresponding Bitmap. Other fragments remain platform-defined.
