@@ -40,7 +40,7 @@ Bitmap inscriptions and the sats on which they are inscribed inherit Ordinals ca
 
 Beyond the Bitmap claim itself, Bitmap prescribes no specific content, use case, or product standard. Products may adopt existing standards, define their own, or support multiple standards.
 
-Reinscriptions are the standard way to associate additional content with a Bitmap sat, while the Bitmap Interoperable Metadata Convention is recommended for interoperability of metadata and standards.
+Reinscriptions enable additional content to be associated with a Bitmap sat, while the Bitmap Interoperable Metadata Convention is recommended for interoperability of metadata and standards.
 
 ## reinscriptions
 
