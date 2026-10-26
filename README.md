@@ -68,3 +68,26 @@ Recommended for interoperability of metadata and standards.
   }
 }
 ```
+
+### platform preference
+
+A Bitmap may declare a preferred platform through metadata reinscriptions. Preference does not restrict other platforms.
+
+**key:** `platform`
+
+**value:** CBOR map containing `id` and `block`.
+
+**id:** inscription ID of the preferred platform.
+
+**block:** Bitcoin block height containing the platform inscription's reveal transaction.
+
+**example:** illustrative JSON-style representation of CBOR metadata.
+
+```json
+{
+  "platform": {
+    "id": "<inscription-id>",
+    "block": 792435
+  }
+}
+```
