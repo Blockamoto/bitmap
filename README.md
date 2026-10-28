@@ -2,7 +2,7 @@
 
 Bitmap proposes a cartographic interpretation of Bitcoin blocks as districts and their transactions as parcels.
 
-Ownership of districts and parcels is established through Bitmap inscriptions.
+For each district or parcel, the first Ordinals inscription satisfying the Bitmap Ruleset establishes a valid claim.
 
 These positions remain consistent across independent representations.
 
