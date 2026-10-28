@@ -99,3 +99,15 @@ Platforms are encouraged to support direct navigation to Bitmap addresses throug
 **format:** `/content/<platform-inscription-id>#<bitmap-address>`
 
 **behaviour:** interpret fragments ending in `.bitmap` as Bitmap addresses and open the corresponding Bitmap. Other fragments remain platform-defined.
+
+## bitmap standard model of ownership
+
+Recommended for rendering inscriptions within Bitmap districts and parcels according to their current Bitcoin ownership. As with a Bitcoin wallet, what a platform displays should reflect what an address holds, providing a shared basis for an ecosystem of digital property.
+
+**rendering:** render an inscription within a district or parcel when its current Bitcoin holding address matches that of the district or parcel.
+
+**mismatch:** do not render the inscription there when the holding addresses differ.
+
+**verification:** determine holding addresses from Bitcoin's current on-chain state.
+
+**scope:** governs rendering only; inscription validity, ownership, transferability, and independent access remain unchanged.
