@@ -102,12 +102,20 @@ Platforms are encouraged to support direct navigation to Bitmap addresses throug
 
 ## bitmap standard model of ownership
 
-Recommended for rendering inscriptions within Bitmap districts and parcels according to their current Bitcoin ownership. As with a Bitcoin wallet, what a platform displays should reflect what an address holds, providing a shared basis for an ecosystem of digital property.
+Recommended for representing inscriptions according to their current Bitcoin ownership. As with a Bitcoin wallet, what is displayed should reflect what an address holds, providing a common foundation for an ecosystem of digital property.
 
-**rendering:** render an inscription within a district or parcel when its current Bitcoin holding address matches that of the district or parcel.
+**place:** a district or parcel. Inscriptions may be rendered within it when their current Bitcoin holding address matches that of the district or parcel inscription.
 
-**mismatch:** do not render the inscription there when the holding addresses differ.
+**person:** an avatar or other personal representation associated with a Bitcoin address. Inscriptions held at that address may be rendered as the avatar itself, or as items attached to or associated with the representation, including costumes, tools, and carried items.
 
-**verification:** determine holding addresses from Bitcoin's current on-chain state.
+**mismatch:** inscriptions with differing holding addresses are not rendered in the corresponding place or personal representation.
+
+**verification:** determine inscription holding addresses from Bitcoin's current on-chain state.
 
 **scope:** governs rendering only; inscription validity, ownership, transferability, and independent access remain unchanged.
+
+### creative mode
+
+An optional departure from the Standard Model of Ownership that allows inscriptions to be rendered within places or associated with personal representations regardless of their Bitcoin holding addresses.
+
+Rendering an inscription in Creative Mode does not imply ownership.
