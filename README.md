@@ -1,6 +1,10 @@
 # bitmap theory
 
-Bitmap is a standard for claiming Bitcoin blocks as Districts through Ordinals inscriptions, and transactions within those blocks as Parcels through child inscriptions.
+Bitmap proposes a cartographic interpretation of Bitcoin blocks as districts and their transactions as parcels.
+
+Ownership of districts and parcels is established through Bitmap inscriptions.
+
+These positions remain consistent across independent representations.
 
 # bitmap ruleset
 
